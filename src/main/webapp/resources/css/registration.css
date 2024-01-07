@@ -1,0 +1,209 @@
+<style>
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Updated to center horizontally */
+    height: 100vh;
+    margin: 0;
+}
+
+#background {
+    background-image: url('resources/image/maxresdefault.png');
+    /* Replace with the actual path to your image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.input-wrapper {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-wrapper input[type="text"],
+.input-wrapper input[type="email"],
+.input-wrapper input[type="password"],
+.input-wrapper select,
+.input-wrapper input[type="text"].mbip-staff {
+    border: none;
+    border-bottom: 1px solid #000;
+    background: none;
+    padding: 5px;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.name-group {
+    display: flex;
+}
+
+.name-group input[type="text"] {
+    margin-right: 5px;
+}
+
+.radio-group {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.input-wrapper label {
+    margin-right: 10px;
+}
+
+.input-wrapper input[type="radio"] {
+    margin-right: 5px;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.left-section {
+    width: 48%;
+    /* Adjust as needed, leaving some space for margins */
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: #D0ECC9;
+    display: flex;
+    flex-direction: column;
+}
+
+.right-section {
+    width: 50%;
+    /* Adjusted width */
+    padding: 35px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.container h2 {
+    text-align: left;
+    /* Center the heading */
+}
+
+.container h3 {
+    color: navy;
+    font-weight: bold;
+    text-align: center;
+}
+
+.input-wrapper textarea {
+    border: none;
+    border-bottom: 1px solid #000;
+    background: none;
+    padding: 5px;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.proof-document-outer {
+    width: 400px;
+    height: 200px;
+    background-color: #f5f5f5;
+    /* Set the background color for the outer box */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.proof-document-inner {
+    width: 300px;
+    /* Adjust the width of the inner box */
+    height: 150px;
+    /* Adjust the height of the inner box */
+    border: 2px dashed #000;
+    background-color: #eee;
+    /* Grey background color for the inner box */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+}
+
+#proof-document-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: #000;
+    margin: auto;
+    /* Center the icon horizontally and vertically */
+}
+
+
+#proof-document-text {
+    margin-top: 10px;
+    color: #555;
+}
+
+#proof-document {
+    display: none;
+    /* Hide the default file input */
+}
+
+input[type="submit"] {
+    width: 100%;
+    /* Make the button take the full width */
+    padding: 10px;
+    /* Increase padding for a bigger button */
+    font-size: 16px;
+    /* Increase font size */
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px;
+    background-color: lightgray;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    z-index: 1;
+    text-align: center;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.modal button {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 16px;
+    color: #333;
+    /* Adjust text color as needed */
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+.modal button:hover {
+    opacity: 1;
+}
+
+</style>

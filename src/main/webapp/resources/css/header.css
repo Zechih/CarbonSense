@@ -1,0 +1,135 @@
+/*headerW.css*/
+
+body {
+	padding: 130px 0 0 310px;
+}
+
+.navbar {
+	height: 55px;
+	width: 100%;
+	background-color: white;
+	width: 100%;
+}
+
+.fixedpos {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 10;
+	width: 100%;
+}
+
+.nav-container {
+	display: flex;
+	flex-wrap: inherit;
+	align-items: center;
+	justify-content: space-between;
+	margin: 0 20px;
+}
+
+.header-image {
+	max-height: 40px;
+	max-width: 100%;
+	height: auto;
+	vertical-align: bottom;
+}
+
+.account {
+	position: relative;
+}
+
+.accountInfo {
+	display: flex;
+	align-items: center;
+}
+
+.account:hover {
+	cursor: pointer;
+}
+
+.accountInfo p {
+	margin: 0;
+}
+
+.accountDropdown {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	position: absolute;
+	top: 40px;
+	right: 0;
+	background-color: white;
+	min-width: 150px;
+	width: 100%;
+	height: 0;
+	transition: height 0.3s linear;
+	transition-delay: 0.1s;
+	overflow: hidden;
+	border-radius: 10px;
+	box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3)
+		0px 3px 7px -3px;
+}
+
+.account:hover .accountDropdown {
+	height: 44px;
+	transition: height 0.3s linear;
+	transition-delay: 0.1s;
+}
+
+.accountDropdown li {
+	height: fit-content;
+	display: flex;
+}
+
+.accountDropdown li a {
+	text-decoration: none;
+	color: black;
+	padding: 10px 15px;
+}
+
+.accountDropdown li:hover {
+	background-color: whitesmoke;
+}
+
+.offcanvas-container {
+	width: 300px;
+	height: 100%;
+	display: inline-block;
+}
+
+.offcanvas {
+	background-color: #98D9A6;
+	--bs-offcanvas-width: 300px;
+}
+
+.nav-link {
+	display: inline-flex;
+}
+
+.nav-link {
+	margin: 5px 0 5px 0;
+}
+
+.nav-link h4 {
+	margin-top: 15px;
+}
+
+.nav-link svg {
+	display: flex;
+	margin: 10px 10px 10px 0;
+	align-items: center;
+	justify-content: center;
+}
+
+.title {
+	position: fixed;
+	max-height: 100 px;
+	width: 100%;
+	top: 55px;
+	left: 300px;
+	background-color: #BBFFCA;
+    }
+
+.title h1 {
+	padding: 15px 0 10px 20px;
+}

@@ -1,0 +1,68 @@
+.infobar p {
+    margin: 0;
+    /* Remove default margin */
+}
+
+/* Arrange information in a grid layout */
+.infobar .grid {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-template-rows: repeat(3, max-content);
+    gap: 10px;
+    /* Adjust the gap based on your preference */
+}
+
+/* Adjust column widths for better alignment */
+.infobar .grid .col1 {
+    min-width: 150px;
+    margin-bottom: 10px;
+}
+
+.infobar .grid .nric-number {
+    margin-bottom: 10px;
+}
+
+/* Adjust grid layout to use Bootstrap grid system */
+.infobar .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* Two columns with equal width */
+    gap: 10px;
+    /* Adjust the gap based on your preference */
+}
+
+/* Add a class for the update button container */
+.update-container {
+    grid-column: span 2;
+    /* Span the full width of the grid */
+    text-align: right;
+}
+
+/* Style for the update button */
+.update-button a {
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    /* Bootstrap primary color */
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.left-column {
+    border: 3px solid #660077;
+    /* Purple border on the right side of the left co0umn */
+    padding: 20px;
+    /* Optional: Add padding for better appearance */
+    width: 50%;
+    margin: 10px;
+}
+
+.right-column {
+    border: 3px solid #1D9300;
+    /* Green border on the left side of the right column */
+    padding: 15px;
+    /* Optional: Add padding for better appearance */
+    width: 41.5%;
+    margin: 10px;
+}
