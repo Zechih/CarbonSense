@@ -11,4 +11,10 @@ public class ReportController {
 		ModelAndView model = new ModelAndView("report");
 		return model;
 	}
+	
+	@RequestMapping("/dashboardAdmin")
+	protected ModelAndView getDashboardAdminPage() {
+		ModelAndView model = new ModelAndView("dashboardAdmin");
+		return model;
+	}
 }

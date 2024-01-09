@@ -41,14 +41,14 @@
 			</div>
 			<div class="offcanvas-body">
 				<ul class="nav-menu" style="list-style: none;">
-					<li class="nav-item"><a href="dashboardAdmin.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="40"
+					<li class="nav-item"><a href="${pageContext.request.contextPath}/dashboardAdmin" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="40"
 								height="40" fill="currentColor" class="bi bi-grid-1x2-fill" viewBox="0 0 16 16">
 								<path
 									d="M0 1a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm9 0a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1zm0 9a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1z" />
 							</svg>
 							<h4>Dashboard</h4>
 						</a></li>
-					<li class="nav-item"><a href="validation.html" class="nav-link"><svg
+					<li class="nav-item"><a href="${pageContext.request.contextPath}/validation.html" class="nav-link"><svg
 								xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
 								class="bi bi-check-circle" viewBox="0 0 16 16" style="margin-top: 20px;">
 								<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
@@ -57,7 +57,7 @@
 							</svg>
 							<h4>Validate Information</h4>
 						</a></li>
-					<li class="nav-item"><a href="report.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg"
+					<li class="nav-item"><a href="${pageContext.request.contextPath}/report" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg"
 								width="40" height="40" fill="currentColor" class="bi bi-file-earmark-text"
 								viewBox="0 0 16 16">
 								<path
