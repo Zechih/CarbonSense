@@ -9,7 +9,7 @@ public class DBConnect {
 	public static Connection openConnection() {
 		Connection connection = null;
 
-		String dbURL = "jdbc:mysql://localhost:3306/ip23db";
+		String dbURL = "jdbc:mysql://localhost:3306/carbonsense";
 		String username = "root";
 		String password = "";
 
