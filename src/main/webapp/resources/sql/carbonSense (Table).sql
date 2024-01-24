@@ -15,19 +15,6 @@ CREATE TABLE `users` (
   `Status` varchar(20) DEFAULT 'DISAPPROVE'
 );
 
-CREATE TABLE `application` (
-  `ApplicationID` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `UserID` int(11) DEFAULT NULL,
-  `Date` date DEFAULT NULL,
-  `WaterID` int(11) NOT NULL,
-  `ElectricityID` int(11) NOT NULL,
-  `RecycleID` int(11),
-  FOREIGN KEY (UserID) REFERENCES Users(UserID),
-  FOREIGN KEY (WaterID) REFERENCES WaterConsumption(WaterID),
-  FOREIGN KEY (ElectricityID) REFERENCES ElectricityConsumption(ElectricityID),
-  FOREIGN KEY (RecycleID) REFERENCES Recycle(RecycleID),
-);
-
 CREATE TABLE `waterConsumption` (
   `WaterID` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `WaterProportionalFactor` decimal(10,2) DEFAULT 0,
@@ -52,4 +39,17 @@ CREATE TABLE `recycle` (
   `RecycleRM` decimal(10,2) DEFAULT 0,
   `RecycleProof` varchar(255) DEFAULT NULL,
   `Status` varchar(20) DEFAULT 'PENDING'
+);
+
+CREATE TABLE `application` (
+  `ApplicationID` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `UserID` int(11) DEFAULT NULL,
+  `Date` date DEFAULT NULL,
+  `WaterID` int(11) NOT NULL,
+  `ElectricityID` int(11) NOT NULL,
+  `RecycleID` int(11),
+  FOREIGN KEY (UserID) REFERENCES Users(UserID),
+  FOREIGN KEY (WaterID) REFERENCES WaterConsumption(WaterID),
+  FOREIGN KEY (ElectricityID) REFERENCES ElectricityConsumption(ElectricityID),
+  FOREIGN KEY (RecycleID) REFERENCES Recycle(RecycleID)
 );
