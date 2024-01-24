@@ -1,4 +1,3 @@
 com\controller\ReportController.class
-com\controller\TraineeController.class
+com\model\Application.class
 com\dbUtil\DBConnect.class
-com\model\User.class

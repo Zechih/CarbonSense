@@ -1,0 +1,85 @@
+<style>body {
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Updated to center horizontally */
+    height: 100vh;
+    margin: 0;
+}
+
+#background {
+    background-image: url('resources/img/maxresdefault.png');
+    /* Replace with the actual path to your image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.container {
+    width: 550px;
+    height: 300px;
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center horizontally */
+    justify-content: center;
+    /* Center vertically */
+}
+
+.container h2 {
+    text-align: center;
+    /* Center the heading */
+}
+
+.input-wrapper {
+    width: 100%;
+    /* Occupy the full width of the container */
+    max-width: 300px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    /* Center horizontally */
+}
+
+.input-wrapper input[type="text"],
+.input-wrapper input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.container input[type="submit"] {
+    width: 100%;
+    /* Occupy the full width of the container */
+    max-width: 200px;
+    background-color: #fff;
+    border: 1px solid black;
+    border-radius: 20px;
+    padding: 10px;
+    cursor: pointer;
+    margin: 10px 0 0 0;
+    display: block;
+    box-shadow: 2px 2px;
+}
+
+.register-link {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+    text-align: center;
+    margin-top: 10px;
+    transition: color 0.3s;
+    /* Smooth transition for color change */
+}
+
+.register-link:hover {
+    color: darkblue;
+    /* Change color on hover */
+}
+
+</style>

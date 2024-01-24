@@ -1,0 +1,33 @@
+.report-container {
+    margin: 2% 5% 2% 5%;
+}
+
+.report-collection {
+    display: flex;
+}
+
+.report-card {
+    display: flex;
+    align-items: flex-start;
+    width: 300px;
+    padding: 1%;
+    border: 1px solid grey;
+    border-radius: 5px;
+    margin: 3% 0 0 5%;
+}
+
+.report-title {
+    margin: 10px 10px 10px 0;
+}
+
+.report-bar {
+    display: inline-flex;
+}
+
+.report-card svg {
+    margin: 10px 20px 10px 10px;
+}
+
+#environmentTable {
+    font-size: 10px;
+}
