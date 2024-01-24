@@ -33,3 +33,36 @@ CREATE TABLE `application` (
   `Status` varchar(20) DEFAULT 'PENDING',
   FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
+
+CREATE TABLE `waterConsumption` (
+  `WaterID` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `UserID` int(11) DEFAULT NULL,
+  `Date` date DEFAULT NULL,
+  `WaterProportionalFactor` decimal(10,2) DEFAULT 0,
+  `WaterUsageValueRM` decimal(10,2) DEFAULT 0,
+  `WaterUsageValueM3` decimal(10,2) DEFAULT 0,
+  `WaterConsumptionProof` varchar(255) DEFAULT NULL,
+  `Status` varchar(20) DEFAULT 'PENDING'
+);
+
+CREATE TABLE `electricityConsumption` (
+  `ElectricityID` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `UserID` int(11) DEFAULT NULL,
+  `Date` date DEFAULT NULL,
+  `ElectricityProportionalFactor` decimal(10,2) DEFAULT 0,
+  `ElectricUsageValueRM` decimal(10,2) DEFAULT 0,
+  `ElectricUsageValueM3` decimal(10,2) DEFAULT 0,
+  `ElectricConsumptionProof` varchar(255) DEFAULT NULL,
+  `Status` varchar(20) DEFAULT 'PENDING'
+);
+
+CREATE TABLE `recycle` (
+  `RecycleID` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `UserID` int(11) DEFAULT NULL,
+  `Date` date DEFAULT NULL,
+  `RecycleKG` decimal(10,2) DEFAULT 0,
+  `RecycleRM` decimal(10,2) DEFAULT 0,
+  `RecycleProof` varchar(255) DEFAULT NULL,
+  `Status` varchar(20) DEFAULT 'PENDING'
+  FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
