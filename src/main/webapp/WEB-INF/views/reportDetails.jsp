@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,11 +29,7 @@
 <script type="text/javascript"
 	src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
-<script type='text/javascript'>
-	$(document).ready(function() {
-		$("#header").load("headerAdmin.html");
-	});
-</script>
+
 <!-- table script -->
 <script>
 	function sortTable(columnIndex) {
@@ -77,6 +71,31 @@
 	</div>
 
 	<div>
+		<script type="text/javascript">
+			/* pie chart1 */
+			google.charts.load('current', {
+				packages : [ 'corechart' ]
+			}).then(
+					function() {
+						var data = google.visualization.arrayToDataTable([
+								[ 'Activity', 'CarbonFootprint' ],
+								[ 'Water Consumption', ${carbonReportAnalysis.totalWaterCarbon} ],
+								[ 'Electricity Consumption', ${carbonReportAnalysis.totalElectricityCarbon} ],
+								[ 'Recycle Activity', ${carbonReportAnalysis.totalRecycleCarbon} ] ]);
+
+						var options = {
+							width : 700,
+							height : 400,
+							title : 'Carbon Footprint',
+							pieHole : 0.4,
+						};
+
+						var chart = new google.visualization.PieChart(document
+								.getElementById('donutchart'));
+						chart.draw(data, options);
+					});
+
+		</script>
 		<script>
 			//Create PDf from HTML...
 			function CreatePDFfromHTML() {
@@ -166,28 +185,4 @@
 		</div>
 	</div>
 </body>
-<script type="text/javascript">
-	/* pie chart1 */
-	google.charts.load('current', {
-		packages : [ 'corechart' ]
-	}).then(
-			function() {
-				var data = google.visualization.arrayToDataTable([
-						[ 'Activity', 'CarbonFootprint' ],
-						[ 'Water Consumption', 1200 ],
-						[ 'Electricity Consumption', 2000 ],
-						[ 'Recycle Activity', 1950 ] ]);
-
-				var options = {
-					width : 700,
-					height : 400,
-					title : 'Carbon Footprint',
-					pieHole : 0.4,
-				};
-
-				var chart = new google.visualization.PieChart(document
-						.getElementById('donutchart'));
-				chart.draw(data, options);
-			});
-</script>
 </html>
