@@ -4,7 +4,7 @@
 
 <head>
     <title>Login Page</title>
-    <link href="resources/css/login.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/login.css" rel="stylesheet">
 
     <style>
         body {
@@ -18,7 +18,7 @@
         }
 
         #background {
-            background-image: url('resources/images/maxresdefault.png');
+            background-image: url('${pageContext.request.contextPath}/resources/images/maxresdefault.png');
             /* Replace with the actual path to your image */
             background-size: cover;
             background-position: center;
@@ -29,7 +29,7 @@
 
 <body id="background">
     <div class="container">
-        <h2><img src="resources/images/mbiplogo.png" alt="MBIP Logo" width="450px"></h2>
+        <h2><img src="${pageContext.request.contextPath}/resources/images/mbiplogo.png" alt="MBIP Logo" width="450px"></h2>
         <br>
         <div class="input-wrapper">
             <form action="login" method="post"> 
@@ -42,7 +42,7 @@
         </div>
         <br>
         <div class="register-link">
-            <a href="register/new">Click me for Register</a>
+            <a href="${pageContext.request.contextPath}/register/new">Click me for Register</a>
         </div>
         <br>
     </div>

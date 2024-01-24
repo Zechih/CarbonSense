@@ -4,7 +4,7 @@
 
 <head>
     <title>Registration Page</title>
-    <link href="resources/css/registration.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/registration.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
@@ -17,7 +17,7 @@
         }
 
         #background {
-            background-image: url('resources/images/maxresdefault.png');
+            background-image: url('${pageContext.request.contextPath}/resources/images/maxresdefault.png');
             /* Replace with the actual path to your image */
             background-size: cover;
             background-position: center;
@@ -29,7 +29,7 @@
 <body id="background">
     <div class="container">
         <div class="left-section">
-            <h2><img src="resources/images/mbiplogo.png" alt="MBIP Logo" width="380px"></h2>
+            <h2><img src="${pageContext.request.contextPath}/resources/images/mbiplogo.png" alt="MBIP Logo" width="380px"></h2>
             <h3>PERSONAL DETAILS</h3>
             <div class="input-wrapper">
                 <input type="text" name="icno" placeholder="IC/Passport No." required>
@@ -103,7 +103,7 @@
             <div class="proof-document-outer">
                 <div class="proof-document-inner">
                     <label for="proof-document" id="proof-document-box">
-                        <div id="proof-document-icon"><img src="resources/images/upload2.png" width="50px" height="50px" alt="upload">
+                        <div id="proof-document-icon"><img src="${pageContext.request.contextPath}resources/images/upload2.png" width="50px" height="50px" alt="upload">
                         </div>
                         <div id="proof-document-text">You can drop or drag your files here</div>
                     </label>
@@ -111,19 +111,13 @@
                 </div>
             </div>
         
-            <form id="registrationForm" action="register" method="post">
+            <form id="registrationForm" action="${pageContext.request.contextPath}/register/create" method="post">
                 <div>
                     <br>
                     <input type="submit" value="Submit">
                     <br>
                 </div>
             </form>
-        
-            <div class="overlay" id="overlay"></div>
-            <div class="modal" id="modal">
-                <h3>PLEASE WAIT FOR THE EMAIL ABOUT THE ACTIVATION ACCOUNT</h3>
-                <button onclick="dismissModal()">Dismiss</button>
-            </div>
         
             <script>
                 function toggleMbipStaffId() {
@@ -144,19 +138,11 @@
                     document.getElementById("modal").style.display = "block";
                 }
         
-                function dismissModal() {
-                    document.getElementById("overlay").style.display = "none";
-                    document.getElementById("modal").style.display = "none";
-        
-                    // Redirect to login.html
-                    window.location.href = "login.html";
-                }
-        
                 function showConfirmationPopup() {
                     showModal();
                 }
         
-                // Attach an event listener to the form
+                // Attach an event listener to the forms
                 document.getElementById("registrationForm").addEventListener("submit", function (event) {
                     // Prevent the default form submission
                     event.preventDefault();

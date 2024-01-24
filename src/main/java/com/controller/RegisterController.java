@@ -23,7 +23,7 @@ public class RegisterController {
         return "registration";
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ModelAndView registerUser(User user) {
         ModelAndView modelAndView = new ModelAndView("registration-success");
 
