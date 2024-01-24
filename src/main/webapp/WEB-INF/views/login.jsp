@@ -4,7 +4,7 @@
 
 <head>
     <title>Login Page</title>
-    <link href="resources/login.css" rel="stylesheet">
+    <link href="resources/css/login.css" rel="stylesheet">
 
     <style>
         body {
@@ -18,7 +18,7 @@
         }
 
         #background {
-            background-image: url('resources/image/maxresdefault.png');
+            background-image: url('resources/images/maxresdefault.png');
             /* Replace with the actual path to your image */
             background-size: cover;
             background-position: center;
@@ -29,20 +29,20 @@
 
 <body id="background">
     <div class="container">
-        <h2><img src="resources/image/mbiplogo.png" alt="MBIP Logo" width="450px"></h2>
+        <h2><img src="resources/images/mbiplogo.png" alt="MBIP Logo" width="450px"></h2>
         <br>
         <div class="input-wrapper">
-            <form action="YourLoginServlet" method="post"> 
-                <input type="text" name="utmid" placeholder="UTM ID" required>
-                <br>
+            <form action="login" method="post"> 
+                <input type="text" name="email" placeholder="Email" required>
+                <br><br>
                 <input type="password" name="password" placeholder="Password" required>
-                <br>
+                <br><br>
                 <input type="submit" value="Login">
             </form>
         </div>
         <br>
         <div class="register-link">
-            <a href="registration.jsp">Click me for Register</a>
+            <a href="register/new">Click me for Register</a>
         </div>
         <br>
     </div>

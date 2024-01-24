@@ -10,7 +10,7 @@ body {
 }
 
 #background {
-    background-image: url('resources/image/maxresdefault.png');
+    background-image: url('resources/images/maxresdefault.png');
     /* Replace with the actual path to your image */
     background-size: cover;
     background-position: center;
