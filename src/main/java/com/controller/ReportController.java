@@ -39,12 +39,37 @@ public class ReportController {
 		ArrayList <Application> applicationList = new ArrayList<Application>();
 
 	    while (rs.next()) {
+	    	float totalEmission = 0;
 	        Application application = new Application();
-	        application.setName(rs.getString("UserID"));
-	        application.setWaterConsumption(rs.getFloat("waterUsageValueM3"));
-	        application.setElectricityConsumption(rs.getFloat("electricUsageValueM3"));
-	        application.setRecycle(rs.getFloat("recycleKG"));
-	        application.setCarbonEmission(100);
+	        
+	        String userSql = "SELECT FirstName, LastName FROM users WHERE UserID = " + rs.getInt("UserID");
+	        ResultSet userRs = conn.createStatement().executeQuery(userSql);
+	        while(userRs.next()) {
+	        	application.setName(userRs.getString("FirstName")+ " " +userRs.getString("LastName"));
+	        }
+	        
+	        String waterSql = "SELECT waterUsageValueM3 FROM waterConsumption WHERE WaterID = " + rs.getInt("WaterID");
+	        ResultSet waterRs = conn.createStatement().executeQuery(waterSql);
+	        while(waterRs.next()) {
+	        	application.setWaterConsumption(waterRs.getFloat("waterUsageValueM3"));
+	        	totalEmission = totalEmission + waterRs.getFloat("waterUsageValueM3");
+	        }
+	        
+	        String electricitySql = "SELECT electricUsageValueM3 FROM electricityConsumption WHERE ElectricityID = " + rs.getInt("ElectricityID");
+	        ResultSet electricityRs = conn.createStatement().executeQuery(electricitySql);
+	        while(electricityRs.next()) {
+	        	application.setElectricityConsumption(electricityRs.getFloat("electricUsageValueM3"));
+	        	totalEmission = totalEmission + electricityRs.getFloat("electricUsageValueM3");
+	        }
+	        
+	        String recycleSql = "SELECT recycleKG FROM recycle WHERE RecycleID = " + rs.getInt("RecycleID");
+	        ResultSet recycleRs = conn.createStatement().executeQuery(recycleSql);
+	        while(recycleRs.next()) {
+	        	application.setRecycle(recycleRs.getFloat("recycleKG"));
+	        	totalEmission = totalEmission + recycleRs.getFloat("recycleKG");
+	        }
+
+	        application.setCarbonEmission(totalEmission);
 	        
 	        applicationList.add(application);
 	    }

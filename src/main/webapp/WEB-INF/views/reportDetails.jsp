@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 
 <!DOCTYPE html>
@@ -36,31 +36,6 @@
 		$("#header").load("headerAdmin.html");
 	});
 </script>
-<script type="text/javascript">
-    /* pie chart1 */
-    google.charts.load('current', {
-        packages: ['corechart']
-    }).then(function () {
-        var data = google.visualization.arrayToDataTable([
-            ['Activity', 'CarbonFootprint'],
-            ['Water Consumption', 1200],
-            ['Electricity Consumption', 2000],
-            ['Recycle Activity', 1950]
-        ]);
-
-        var options = {
-            width: 700,
-            height: 400,
-            title: 'Carbon Footprint',
-            pieHole: 0.4,
-        };
-
-        var chart = new google.visualization.PieChart(
-            document.getElementById('donutchart'));
-        chart.draw(data, options);
-    });
-</script>
-
 <!-- table script -->
 <script>
 	function sortTable(columnIndex) {
@@ -148,6 +123,7 @@
 			}
 		</script>
 		<div>
+
 			<div id="target">
 				<div id="donutchart"></div>
 				<div>
@@ -162,15 +138,16 @@
 							</tr>
 						</thead>
 						<tbody>
-						<c:forEach items="${applicationList}" var="application" varStatus="loop">
-							<tr>
-								<td>${application.name}</td>
-								<td>${application.waterConsumption} liters</td>
-								<td>${application.electricityConsumption} kWh</td>
-								<td>${application.recycle} kg</td>
-								<td>${application.carbonEmission} kgCO2</td>
-							</tr>
-						</c:forEach>
+							<c:forEach items="${applicationList}" var="application"
+								varStatus="loop">
+								<tr>
+									<td>${application.name}</td>
+									<td>${application.waterConsumption}liters</td>
+									<td>${application.electricityConsumption}kWh</td>
+									<td>${application.recycle}kg</td>
+									<td>${application.carbonEmission}kgCO2</td>
+								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 				</div>
@@ -189,4 +166,28 @@
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+	/* pie chart1 */
+	google.charts.load('current', {
+		packages : [ 'corechart' ]
+	}).then(
+			function() {
+				var data = google.visualization.arrayToDataTable([
+						[ 'Activity', 'CarbonFootprint' ],
+						[ 'Water Consumption', 1200 ],
+						[ 'Electricity Consumption', 2000 ],
+						[ 'Recycle Activity', 1950 ] ]);
+
+				var options = {
+					width : 700,
+					height : 400,
+					title : 'Carbon Footprint',
+					pieHole : 0.4,
+				};
+
+				var chart = new google.visualization.PieChart(document
+						.getElementById('donutchart'));
+				chart.draw(data, options);
+			});
+</script>
 </html>

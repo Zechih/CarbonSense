@@ -45,11 +45,8 @@ CREATE TABLE `application` (
   `ApplicationID` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `UserID` int(11) DEFAULT NULL,
   `Date` date DEFAULT NULL,
-  `WaterID` int(11) NOT NULL,
-  `ElectricityID` int(11) NOT NULL,
-  `RecycleID` int(11),
-  FOREIGN KEY (UserID) REFERENCES Users(UserID),
-  FOREIGN KEY (WaterID) REFERENCES WaterConsumption(WaterID),
-  FOREIGN KEY (ElectricityID) REFERENCES ElectricityConsumption(ElectricityID),
-  FOREIGN KEY (RecycleID) REFERENCES Recycle(RecycleID)
+  `WaterID` int(11) DEFAULT NULL,
+  `ElectricityID` int(11) DEFAULT NULL,
+  `RecycleID` int(11) DEFAULT NULL,
+  FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
