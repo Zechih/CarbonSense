@@ -5,10 +5,10 @@ import java.io.Serializable;
 public class CarbonReportAnalysis implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	float totalWaterCarbon;
-	float totalElectricityCarbon;
-	float totalRecycleCarbon;
-	float totalCarbonEmission;
+	private float totalWaterCarbon;
+	private float totalElectricityCarbon;
+	private float totalRecycleCarbon;
+	private float totalCarbonEmission;
 	
 	public float getTotalWaterCarbon() {
 		return totalWaterCarbon;

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.dbUtil.DBConnect;
 import com.model.Application;
 import com.model.CarbonCalculation;
+import com.model.CarbonRegion;
 import com.model.CarbonReportAnalysis;
 
 @Controller
@@ -25,12 +26,18 @@ public class ReportController {
 		Connection conn = DBConnect.openConnection();
 		String sql = "SELECT MIN(DATE_FORMAT(`date`, '%Y')) AS smallest_year, MIN(DATE_FORMAT(`date`, '%m')) AS smallest_month FROM application;";
 		ResultSet rs = conn.createStatement().executeQuery(sql);
-		
+
 		if (rs.next()) {
 			model.addObject("smallest_year", rs.getInt("smallest_year"));
 			model.addObject("smallest_month", rs.getInt("smallest_month"));
 			conn.close();
 		}
+		return model;
+	}
+
+	@RequestMapping("/reportError")
+	protected ModelAndView getReportErrorPage() throws SQLException {
+		ModelAndView model = new ModelAndView("reportError");
 		return model;
 	}
 
@@ -50,45 +57,52 @@ public class ReportController {
 		float totalCarbonEmission = 0;
 
 		ArrayList<Application> applicationList = new ArrayList<Application>();
+		ArrayList<CarbonRegion> carbonRegionList = new ArrayList<CarbonRegion>();
 		CarbonReportAnalysis carbonReportAnalysis = new CarbonReportAnalysis();
 
 		while (rs.next()) {
+			float waterCarbon = 0;
+			float electricityCarbon = 0;
+			float recycleCarbon = 0;
 			float totalEmission = 0;
 			Application application = new Application();
 
-			String userSql = "SELECT FirstName, LastName FROM users WHERE UserID = " + rs.getInt("UserID");
+			String userSql = "SELECT FirstName, LastName, Region, Category FROM users WHERE UserID = "
+					+ rs.getInt("UserID");
 			ResultSet userRs = conn.createStatement().executeQuery(userSql);
 			while (userRs.next()) {
 				application.setName(userRs.getString("FirstName") + " " + userRs.getString("LastName"));
+				application.setCategory(userRs.getString("Category"));
+				application.setRegion(userRs.getString("Region"));
 			}
 
 			String waterSql = "SELECT waterUsageValueM3 FROM waterConsumption WHERE WaterID = " + rs.getInt("WaterID");
 			ResultSet waterRs = conn.createStatement().executeQuery(waterSql);
 			while (waterRs.next()) {
+				waterCarbon = CarbonCalculation.calWaterCarbon(waterRs.getFloat("waterUsageValueM3"));
 				application.setWaterConsumption(waterRs.getFloat("waterUsageValueM3"));
-				totalEmission = totalEmission + CarbonCalculation.calWaterCarbon(waterRs.getFloat("waterUsageValueM3"));
-				totalWaterCarbon = totalWaterCarbon
-						+ CarbonCalculation.calWaterCarbon(waterRs.getFloat("waterUsageValueM3"));
+				totalEmission = totalEmission + waterCarbon;
+				totalWaterCarbon = totalWaterCarbon + waterCarbon;
 			}
 
 			String electricitySql = "SELECT electricUsageValueM3 FROM electricityConsumption WHERE ElectricityID = "
 					+ rs.getInt("ElectricityID");
 			ResultSet electricityRs = conn.createStatement().executeQuery(electricitySql);
 			while (electricityRs.next()) {
+				electricityCarbon = CarbonCalculation
+						.calElectricityCarbon(electricityRs.getFloat("electricUsageValueM3"));
 				application.setElectricityConsumption(electricityRs.getFloat("electricUsageValueM3"));
-				totalEmission = totalEmission
-						+ CarbonCalculation.calElectricityCarbon(electricityRs.getFloat("electricUsageValueM3"));
-				totalElectricityCarbon = totalElectricityCarbon
-						+ CarbonCalculation.calElectricityCarbon(electricityRs.getFloat("electricUsageValueM3"));
+				totalEmission = totalEmission + electricityCarbon;
+				totalElectricityCarbon = totalElectricityCarbon + electricityCarbon;
 			}
 
 			String recycleSql = "SELECT recycleKG FROM recycle WHERE RecycleID = " + rs.getInt("RecycleID");
 			ResultSet recycleRs = conn.createStatement().executeQuery(recycleSql);
 			while (recycleRs.next()) {
+				recycleCarbon = CarbonCalculation.calRecycleCarbon(recycleRs.getFloat("recycleKG"));
 				application.setRecycle(recycleRs.getFloat("recycleKG"));
-				totalEmission = totalEmission + CarbonCalculation.calRecycleCarbon(recycleRs.getFloat("recycleKG"));
-				totalRecycleCarbon = totalRecycleCarbon
-						+ CarbonCalculation.calRecycleCarbon(recycleRs.getFloat("recycleKG"));
+				totalEmission = totalEmission + recycleCarbon;
+				totalRecycleCarbon = totalRecycleCarbon + recycleCarbon;
 			}
 
 			totalCarbonEmission = totalCarbonEmission + totalEmission;
@@ -96,6 +110,29 @@ public class ReportController {
 
 			if (totalEmission != 0) {
 				applicationList.add(application);
+
+				boolean regionInList = false;
+				for (CarbonRegion carbonRegionLists : carbonRegionList) {
+					if (carbonRegionLists.getRegion() == application.getRegion()) {
+						regionInList = true;
+						carbonRegionLists.setWater_Carbon(carbonRegionLists.getWater_Carbon() + waterCarbon);
+						carbonRegionLists
+								.setElectricity_Carbon(carbonRegionLists.getElectricity_Carbon() + electricityCarbon);
+						carbonRegionLists.setRecycle_Carbon(carbonRegionLists.getRecycle_Carbon() + recycleCarbon);
+						carbonRegionLists.setTotal_Carbon(carbonRegionLists.getTotal_Carbon() + totalEmission);
+						break;
+					}
+				}
+
+				if (!regionInList) {
+					CarbonRegion newRegion = new CarbonRegion();
+					newRegion.setRegion(application.getRegion());
+					newRegion.setWater_Carbon(waterCarbon);
+					newRegion.setElectricity_Carbon(electricityCarbon);
+					newRegion.setRecycle_Carbon(recycleCarbon);
+					newRegion.setTotal_Carbon(totalEmission);
+					carbonRegionList.add(newRegion);
+				}
 			}
 		}
 
@@ -104,16 +141,15 @@ public class ReportController {
 		carbonReportAnalysis.setTotalElectricityCarbon(totalElectricityCarbon);
 		carbonReportAnalysis.setTotalRecycleCarbon(totalRecycleCarbon);
 		carbonReportAnalysis.setTotalCarbonEmission(totalCarbonEmission);
-
+		if (totalCarbonEmission == 0) {
+			return new ModelAndView("/reportError");
+		}
+		
+		model.addObject("carbonRegionList", carbonRegionList);
 		model.addObject("applicationList", applicationList);
 		model.addObject("carbonReportAnalysis", carbonReportAnalysis);
 
 		return model;
 	}
 
-	@RequestMapping("/dashboardAdmin")
-	protected ModelAndView getDashboardAdminPage() {
-		ModelAndView model = new ModelAndView("dashboardAdmin");
-		return model;
-	}
 }
