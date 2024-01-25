@@ -2,6 +2,7 @@ CREATE TABLE `users` (
   `UserID` int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
   `Email` varchar(255) UNIQUE NOT NULL,
   `IC` varchar(20) UNIQUE DEFAULT NULL,
+  `Password` varchar(50) NOT NULL,
   `FirstName` varchar(50) DEFAULT NULL,
   `LastName` varchar(50) DEFAULT NULL,
   `Gender` varchar(10) DEFAULT NULL,
