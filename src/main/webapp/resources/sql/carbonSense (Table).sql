@@ -13,7 +13,7 @@ CREATE TABLE `users` (
   `AddressProof` varchar(255) DEFAULT NULL,
   `Region` varchar(255) DEFAULT NULL,
   `Role` varchar(20) DEFAULT 'USER',
-  `Status` varchar(20) DEFAULT 'DISAPPROVE'
+  `Status` varchar(20) DEFAULT 'DISAPPROVED'
 );
 
 CREATE TABLE `waterConsumption` (
