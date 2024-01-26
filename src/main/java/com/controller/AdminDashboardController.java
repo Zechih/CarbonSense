@@ -21,7 +21,7 @@ public class AdminDashboardController {
 		ModelAndView model = new ModelAndView("dashboardAdmin");
 		Connection conn = DBConnect.openConnection();
 
-		// donnut pie
+		// donnut graph
 		CarbonReportAnalysis carbonReportAnalysis = new CarbonReportAnalysis();
 
 		String waterSql = "SELECT SUM(WaterUsageValueM3) AS totalWaterConsumption FROM waterconsumption WHERE status = 'APPROVED'";
@@ -61,14 +61,33 @@ public class AdminDashboardController {
 				CarbonRegion newRegion = new CarbonRegion();
 				newRegion.setRegion(regionRs.getString("Region"));
 				newRegion.setWater_Carbon(CarbonCalculation.calWaterCarbon(regionRs.getFloat("totalWaterCon")));
-				newRegion.setElectricity_Carbon(CarbonCalculation.calElectricityCarbon(regionRs.getFloat("totalElectricCon")));
+				newRegion.setElectricity_Carbon(
+						CarbonCalculation.calElectricityCarbon(regionRs.getFloat("totalElectricCon")));
 				newRegion.setRecycle_Carbon(CarbonCalculation.calRecycleCarbon(regionRs.getFloat("totalRecycle")));
-				newRegion.setTotal_Carbon(newRegion.getWater_Carbon() + newRegion.getElectricity_Carbon() + newRegion.getRecycle_Carbon());
+				newRegion.setTotal_Carbon(newRegion.getWater_Carbon() + newRegion.getElectricity_Carbon()
+						+ newRegion.getRecycle_Carbon());
 				carbonRegionList.add(newRegion);
 			}
 		}
-		
+
 		model.addObject("carbonRegionList", carbonRegionList);
+
+		// total participant
+
+		String totalP_Sql = "SELECT COUNT(users.userID) AS totalParticipant FROM users WHERE status = 'APPROVED'";
+		try (ResultSet totalP_Rs = conn.createStatement().executeQuery(totalP_Sql)) {
+			if (totalP_Rs.next()) {
+				model.addObject("totalParticipant", totalP_Rs.getInt("totalParticipant"));
+			}
+		}
+
+		// total submission
+		String totalS_Sql = "SELECT COUNT(application.applicationID) AS totalSubmission FROM application";
+		try (ResultSet totalS_Rs = conn.createStatement().executeQuery(totalS_Sql)) {
+			if (totalS_Rs.next()) {
+				model.addObject("totalSubmission", totalS_Rs.getInt("totalSubmission"));
+			}
+		}
 		return model;
 	}
 }

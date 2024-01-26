@@ -70,15 +70,15 @@ public class ReportController {
 			String userSql = "SELECT FirstName, LastName, Region, Category FROM users WHERE UserID = "
 					+ rs.getInt("UserID");
 			ResultSet userRs = conn.createStatement().executeQuery(userSql);
-			while (userRs.next()) {
+			if (userRs.next()) {
 				application.setName(userRs.getString("FirstName") + " " + userRs.getString("LastName"));
 				application.setCategory(userRs.getString("Category"));
 				application.setRegion(userRs.getString("Region"));
 			}
 
-			String waterSql = "SELECT waterUsageValueM3 FROM waterConsumption WHERE WaterID = " + rs.getInt("WaterID");
+			String waterSql = "SELECT waterUsageValueM3 FROM waterConsumption WHERE WaterID = " + rs.getInt("WaterID") + " AND status = 'APPROVED'";
 			ResultSet waterRs = conn.createStatement().executeQuery(waterSql);
-			while (waterRs.next()) {
+			if (waterRs.next()) {
 				waterCarbon = CarbonCalculation.calWaterCarbon(waterRs.getFloat("waterUsageValueM3"));
 				application.setWaterConsumption(waterRs.getFloat("waterUsageValueM3"));
 				totalEmission = totalEmission + waterCarbon;
@@ -86,9 +86,9 @@ public class ReportController {
 			}
 
 			String electricitySql = "SELECT electricUsageValueM3 FROM electricityConsumption WHERE ElectricityID = "
-					+ rs.getInt("ElectricityID");
+					+ rs.getInt("ElectricityID") + " AND status = 'APPROVED'";
 			ResultSet electricityRs = conn.createStatement().executeQuery(electricitySql);
-			while (electricityRs.next()) {
+			if (electricityRs.next()) {
 				electricityCarbon = CarbonCalculation
 						.calElectricityCarbon(electricityRs.getFloat("electricUsageValueM3"));
 				application.setElectricityConsumption(electricityRs.getFloat("electricUsageValueM3"));
@@ -96,9 +96,9 @@ public class ReportController {
 				totalElectricityCarbon = totalElectricityCarbon + electricityCarbon;
 			}
 
-			String recycleSql = "SELECT recycleKG FROM recycle WHERE RecycleID = " + rs.getInt("RecycleID");
+			String recycleSql = "SELECT recycleKG FROM recycle WHERE RecycleID = " + rs.getInt("RecycleID") + " AND status = 'APPROVED'";
 			ResultSet recycleRs = conn.createStatement().executeQuery(recycleSql);
-			while (recycleRs.next()) {
+			if (recycleRs.next()) {
 				recycleCarbon = CarbonCalculation.calRecycleCarbon(recycleRs.getFloat("recycleKG"));
 				application.setRecycle(recycleRs.getFloat("recycleKG"));
 				totalEmission = totalEmission + recycleCarbon;

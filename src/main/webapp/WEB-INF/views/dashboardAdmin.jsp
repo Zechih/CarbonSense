@@ -149,7 +149,7 @@
                 </svg>
             </div>
             <div>
-                <h2>1290 Participant</h2>
+                <h2><b id="totalP"></b> Participant</h2>
             </div>
         </div>
         <div class="report-card">
@@ -163,7 +163,7 @@
                 </svg>
             </div>
             <div>
-                <h2>81887 Emission</h2>
+                <h2><b id="carbonF"></b> Emission</h2>
             </div>
         </div>
         <div class="report-card">
@@ -177,14 +177,25 @@
                 </svg>
             </div>
             <div>
-                <h2>1290 Submission</h2>
+                <h2><b id="totalS"></b> Submission</h2>
             </div>
         </div>
     </div>
     <div>
         <div id="donutchart"></div>
 		<div id="chart_div"></div>
-		<div id="environmentChart" style="width: 1000px; height: 400px;"></div>
+		<!-- <div id="environmentChart" style="width: 1000px; height: 400px;"></div> -->
     </div>
 </body>
+<script>
+ 	var carbonF_Element = document.getElementById('carbonF');
+	var totalP_Element = document.getElementById('totalP');
+	var totalS_Element = document.getElementById('totalS');
+	function updateData() {
+		carbonF_Element.textContent = ${carbonReportAnalysis.totalCarbonEmission};
+		totalP_Element.textContent = ${totalParticipant};
+		totalS_Element.textContent = ${totalSubmission};
+    }
+    updateData(); 
+</script>
 </html>

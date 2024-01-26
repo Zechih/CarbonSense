@@ -116,22 +116,20 @@
 			function drawBarColors() {
 				var data = google.visualization.arrayToDataTable([
 			        ['Region', 'Water', 'Electricity', 'Recycle', { role: 'annotation' } ],
-			        <%	
-			        for (String region : regions) {
-			            boolean isInList = false;
-			            for (CarbonRegion carbonRegion : carbonRegionList) {
-			                if (region.equals(carbonRegion.getRegion())) {
-			                    isInList = true;
-			                    out.println("['" + carbonRegion.getRegion() + "', " + carbonRegion.getWater_Carbon() + ", "
-			                            + carbonRegion.getElectricity_Carbon() + ", " + carbonRegion.getRecycle_Carbon() + ", ''],");
-			                    break;
-			                }
-			            }
-			            if (!isInList) {
-			                out.println("['" + region + "', 0, 0, 0, ''], ");
-			            }
-			        }
-					%>
+			        <%for (String region : regions) {
+	boolean isInList = false;
+	for (CarbonRegion carbonRegion : carbonRegionList) {
+		if (region.equals(carbonRegion.getRegion())) {
+			isInList = true;
+			out.println("['" + carbonRegion.getRegion() + "', " + carbonRegion.getWater_Carbon() + ", "
+					+ carbonRegion.getElectricity_Carbon() + ", " + carbonRegion.getRecycle_Carbon() + ", ''],");
+			break;
+		}
+	}
+	if (!isInList) {
+		out.println("['" + region + "', 0, 0, 0, ''], ");
+	}
+}%>
 			      ]);
 
 			      var options = {
@@ -194,7 +192,7 @@
 			}
 		</script>
 		<div class="report-details">
-			<div id="target" >
+			<div id="target">
 				<div id="donutchart"></div>
 				<div id="chart_div"></div>
 				<div>
@@ -205,6 +203,7 @@
 						<table class="table" id="environmentTable">
 							<thead>
 								<tr>
+									<th>#</th>
 									<th onclick="sortTable(0)">Name</th>
 									<th onclick="sortTable(1)">Water Consumption (liters)</th>
 									<th onclick="sortTable(2)">Electricity Consumption (kWh)</th>
@@ -213,20 +212,28 @@
 								</tr>
 							</thead>
 							<tbody>
+								<c:set var="count" value="1" />
+								<c:set var="inCategory" value="false" />
 								<c:forEach items="${applicationList}" var="application"
 									varStatus="loop">
 									<c:if test="${application.category == category}">
 										<tr>
+											<td>${count}</td>
+											<c:set var="count" value="${count + 1}" />
 											<td>${application.name}</td>
 											<td>${application.waterConsumption}</td>
 											<td>${application.electricityConsumption}</td>
 											<td>${application.recycle}</td>
 											<td>${application.carbonEmission}</td>
+											<c:set var="inCategory" value="true" />
 										</tr>
 									</c:if>
 								</c:forEach>
 							</tbody>
 						</table>
+						<c:if test="${inCategory == false}">
+							<c:out value="No Submission"></c:out>
+						</c:if>
 					</c:forEach>
 				</div>
 			</div>

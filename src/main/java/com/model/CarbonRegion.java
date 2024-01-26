@@ -9,7 +9,6 @@ public class CarbonRegion implements Serializable{
 	private float electricity_Carbon;
 	private float recycle_Carbon;
 	private float total_Carbon;
-//	private int total_Submmission;
 	
 	public float getTotal_Carbon() {
 		return total_Carbon;
@@ -41,12 +40,6 @@ public class CarbonRegion implements Serializable{
 	public void setRecycle_Carbon(float recycle_Carbon) {
 		this.recycle_Carbon = recycle_Carbon;
 	}
-//	public int getTotal_Submmission() {
-//		return total_Submmission;
-//	}
-//	public void setTotal_Submmission(int total_Submmission) {
-//		this.total_Submmission = total_Submmission;
-//	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
