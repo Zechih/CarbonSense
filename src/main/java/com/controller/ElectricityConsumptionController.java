@@ -1,5 +1,6 @@
 package com.controller;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,15 +10,17 @@ import java.time.LocalDate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dbUtil.DBConnect;
 
 @Controller
-public class electricityConsumptionController {
+public class ElectricityConsumptionController {
 	@RequestMapping("/electricityConsumption")
 	protected ModelAndView getElectricityConsumptionPage() throws SQLException {
-		ModelAndView model = new ModelAndView("electricityconsumption");
+		ModelAndView model = new ModelAndView("electricityConsumption");
 		return model;
 	}
 
@@ -26,8 +29,8 @@ public class electricityConsumptionController {
 			@RequestParam("proportionalFactor") float proportionalFactor,
 			@RequestParam("electricityUsageRM") float electricityUsageRM,
 			@RequestParam("electricityUsageM3") float electricityUsageM3, 
-			@RequestParam("billImage") String billImage)
-			throws SQLException {
+			@RequestParam MultipartFile billImage)
+			throws SQLException, IOException {
 
 		Connection conn = DBConnect.openConnection();
 		LocalDate currentDate = LocalDate.now();
@@ -36,43 +39,53 @@ public class electricityConsumptionController {
 		stmt.setInt(1, userID);
 		stmt.setInt(2, currentDate.getYear());
 		stmt.setInt(3, currentDate.getMonthValue());
+		
+		byte[] fileBytes = null;
+		if (!billImage.isEmpty()) {
+			fileBytes = billImage.getBytes();
+		}
+		
+		String message = null;
+		
 		try (ResultSet rs = stmt.executeQuery()) {
 			// if application have been made
 			if (rs.next()) {
 				// check whether the waterID is true
-				if (rs.getInt("waterID") > 0) {
+				if (rs.getInt("electricityID") > 0) {
 					// have waterID update
-					String updateWaterSql = "UPDATE waterconsumption SET WaterProportionalFactor = ?, WaterUsageValueRM = ?, WaterUsageValueM3 = ?, WaterConsumptionProof = ?, status = 'DISAPPROVED' WHERE waterID = ?;";
-					PreparedStatement waterStmt = conn.prepareStatement(updateWaterSql);
-					waterStmt.setFloat(1, proportionalFactor);
-					waterStmt.setFloat(2, electricityUsageRM);
-					waterStmt.setFloat(3, electricityUsageM3);
-					waterStmt.setString(4, billImage);
-					waterStmt.setInt(5, rs.getInt("waterID"));
-					int affectedRows = waterStmt.executeUpdate();
+					String updateElectricitySql = "UPDATE electricityconsumption SET electricityProportionalFactor = ?, electricUsageValueRM = ?, electricUsageValueM3 = ?, electricConsumptionProof = ?, status = 'DISAPPROVED' WHERE electricityID = ?;";
+					PreparedStatement electricityStmt = conn.prepareStatement(updateElectricitySql);
+					electricityStmt.setFloat(1, proportionalFactor);
+					electricityStmt.setFloat(2, electricityUsageRM);
+					electricityStmt.setFloat(3, electricityUsageM3);
+					electricityStmt.setBytes(4, fileBytes);
+					electricityStmt.setInt(5, rs.getInt("electricityID"));
+					int affectedRows = electricityStmt.executeUpdate();
+					message = "Update successfully";
 
 				} else {
 					// waterID not found insert
-					String insertWaterSql = "INSERT INTO waterconsumption (WaterProportionalFactor, WaterUsageValueRM, WaterUsageValueM3, WaterConsumptionProof, status) VALUES (?, ?, ?, ?, 'DISAPPROVED');";
-					PreparedStatement waterStmt = conn.prepareStatement(insertWaterSql,
+					String insertElectricitySql = "INSERT INTO electricityconsumption (electricityProportionalFactor, electricUsageValueRM, electricUsageValueM3, electricConsumptionProof, status) VALUES (?, ?, ?, ?, 'DISAPPROVED');";
+					PreparedStatement electricityStmt = conn.prepareStatement(insertElectricitySql,
 							PreparedStatement.RETURN_GENERATED_KEYS);
-					waterStmt.setFloat(1, proportionalFactor);
-					waterStmt.setFloat(2, electricityUsageRM);
-					waterStmt.setFloat(3, electricityUsageM3);
-					waterStmt.setString(4, billImage);
-					int affectedRows = waterStmt.executeUpdate();
+					electricityStmt.setFloat(1, proportionalFactor);
+					electricityStmt.setFloat(2, electricityUsageRM);
+					electricityStmt.setFloat(3, electricityUsageM3);
+					electricityStmt.setBytes(4, fileBytes);
+					int affectedRows = electricityStmt.executeUpdate();
 
 					if (affectedRows > 0) {
-						try (ResultSet generatedKeys = waterStmt.getGeneratedKeys()) {
+						try (ResultSet generatedKeys = electricityStmt.getGeneratedKeys()) {
 							if (generatedKeys.next()) {
-								int waterID = generatedKeys.getInt(1);
-								String updateApplicationSql = "UPDATE application SET waterID = ? WHERE applicationID = ?";
+								int electricityID = generatedKeys.getInt(1);
+								String updateApplicationSql = "UPDATE application SET electricityID = ? WHERE applicationID = ?";
 								try (PreparedStatement updateApplicationStmt = conn
 										.prepareStatement(updateApplicationSql)) {
-									updateApplicationStmt.setInt(1, waterID);
+									updateApplicationStmt.setInt(1, electricityID);
 									updateApplicationStmt.setInt(2, rs.getInt("applicationID"));
 
 									int updateApplicationRows = updateApplicationStmt.executeUpdate();
+									message = "Submit successfully";
 								}
 							}
 						}
@@ -80,29 +93,30 @@ public class electricityConsumptionController {
 				}
 
 			} else {
-				// create water consumption
-				String insertWaterSql = "INSERT INTO waterconsumption (WaterProportionalFactor, WaterUsageValueRM, WaterUsageValueM3, WaterConsumptionProof, status) VALUES (?, ?, ?, ?, 'DISAPPROVED');";
-				PreparedStatement waterStmt = conn.prepareStatement(insertWaterSql,
+				// create electricity consumption
+				String insertElectricitySql = "INSERT INTO electricityconsumption (electricityProportionalFactor, electricUsageValueRM, electricUsageValueM3, electricConsumptionProof, status) VALUES (?, ?, ?, ?, 'DISAPPROVED');";
+				PreparedStatement electricityStmt = conn.prepareStatement(insertElectricitySql,
 						PreparedStatement.RETURN_GENERATED_KEYS);
-				waterStmt.setFloat(1, proportionalFactor);
-				waterStmt.setFloat(2, electricityUsageRM);
-				waterStmt.setFloat(3, electricityUsageM3);
-				waterStmt.setString(4, billImage);
-				int affectedRows = waterStmt.executeUpdate();
+				electricityStmt.setFloat(1, proportionalFactor);
+				electricityStmt.setFloat(2, electricityUsageRM);
+				electricityStmt.setFloat(3, electricityUsageM3);
+				electricityStmt.setBytes(4, fileBytes);
+				int affectedRows = electricityStmt.executeUpdate();
 
-				// create application and add water consumption
+				// create application and add electricity consumption
 				if (affectedRows > 0) {
-					try (ResultSet generatedKeys = waterStmt.getGeneratedKeys()) {
+					try (ResultSet generatedKeys = electricityStmt.getGeneratedKeys()) {
 						if (generatedKeys.next()) {
-							int waterID = generatedKeys.getInt(1);
-							String insertApplicationSql = "INSERT INTO application (userID, date, waterID) VALUES (?, ?, ?)";
+							int electricityID = generatedKeys.getInt(1);
+							String insertApplicationSql = "INSERT INTO application (userID, date, electricityID) VALUES (?, ?, ?)";
 							try (PreparedStatement insertApplicationStmt = conn
 									.prepareStatement(insertApplicationSql)) {
 								insertApplicationStmt.setInt(1, userID);
 								insertApplicationStmt.setObject(2, currentDate);
-								insertApplicationStmt.setInt(3, waterID);
+								insertApplicationStmt.setInt(3, electricityID);
 
 								int insertApplicationRows = insertApplicationStmt.executeUpdate();
+								message = "Submit successfully";
 							}
 						}
 					}
@@ -111,8 +125,9 @@ public class electricityConsumptionController {
 			}
 
 		}
-
-		ModelAndView model = new ModelAndView("electricityconsumption");
+		
+		ModelAndView model = new ModelAndView("electricitySubmitResponse");
+		model.addObject("message", message);
 		return model;
 	}
 }

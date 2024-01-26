@@ -38,7 +38,7 @@
 				alt="semak bill" width="400" height="270">
 		</div>
 	</div>
-	<form action="electricitySubmit">
+	<form action="electricitySubmit" method="post" enctype="multipart/form-data">
 	<div class="form-container">
 		<div class="form-input-value mb-3">
 			<div>
@@ -49,24 +49,24 @@
 			<div>
 				<label for="proportionalFactor" class="form-label">Proportional
 					Factor</label> <input type="text" class="form-control"
-					id="proportionalFactor" name="proportionalFactor">
+					id="proportionalFactor" name="proportionalFactor" required>
 			</div>
 			<div>
 				<label for="waterUsageRM" class="form-label">The current
 					electric usage value (in RM)</label> <input type="text"
-					class="form-control" id="electricityUsageRM" name="electricityUsageRM">
+					class="form-control" id="electricityUsageRM" name="electricityUsageRM" required>
 			</div>
 			<div>
 				<label for="waterUsageM3" class="form-label">The current
 					electric usage value (kWh)</label> <input type="text" class="form-control"
-					id="electricityUsageM3" name="electricityUsageM3">
+					id="electricityUsageM3" name="electricityUsageM3" required>
 			</div>
 		</div>
 		<div class="form-upload">
 			<div>
 				<label for="billImage" class="form-label">Upload your bill
 					according to the selected month</label> <input type="file"
-					class="form-control" id="billImage" name="billImage">
+					class="form-control" id="billImage" name="billImage" required>
 			</div>
 			<input type="hidden" id="userID" name="userID" value="22">
 			<div class="submit-btn">
