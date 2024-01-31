@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="com.model.CarbonRegion"%>
 <%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html>
@@ -132,14 +133,18 @@
 }%>
 			      ]);
 
-			      var options = {
-			        width: 1000,
-			        height: 600,
-			        legend: { position: 'top', maxLines: 3 },
-			        bar: { groupWidth: '75%' },
-			        chartArea: {top: 20, bottom: 70},
-			        isStacked: true
-			      };
+				var options = {
+					    width: 1000,
+					    height: 600,
+					    legend: { position: 'right', maxLines: 3 },
+					    bar: { groupWidth: '75%' },
+					    title: 'Carbon Footprint Variation Across Regions',
+					    vAxis: {title: 'Region'},
+					    hAxis: {title: 'Carbon Footprint (kgCO2)'},
+					    chartArea: { top: 20, bottom: 70 },
+					    isStacked: true
+					};
+
 			      
 			      var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
 			      chart.draw(data, options);
@@ -186,14 +191,44 @@
 														canvas_image_width,
 														canvas_image_height);
 									}
-									pdf.save("Your_PDF_Name.pdf");
+									pdf.save("Carbon Footprint Report ${date}.pdf");
 
 								});
 			}
 		</script>
 		<div class="report-details">
 			<div id="target">
-				<div id="donutchart"></div>
+				<h3>
+					Carbon Footprint Report
+					<c:out value="${date}"></c:out>
+				</h3>
+				<div style="display: flex;">
+					<div id="donutchart"></div>
+					<div class="card mb-3" style="width: 21rem; height: 9rem; margin-top: 2rem;">
+						<div class="card-body">
+							<h6 class="card-title">
+								Total Carbon Emission (kgCO2):
+								<fmt:formatNumber type="number" maxFractionDigits="4"
+									value="${carbonReportAnalysis.totalCarbonEmission}" />
+							</h6>
+							<h6 class="card-title">
+								Water Consumption (kgCO2):
+								<fmt:formatNumber type="number" maxFractionDigits="4"
+									value="${carbonReportAnalysis.totalWaterCarbon}" />
+							</h6>
+							<h6 class="card-title">
+								Electricity Consumption (kgCO2):
+								<fmt:formatNumber type="number" maxFractionDigits="4"
+									value="${carbonReportAnalysis.totalElectricityCarbon}" />
+							</h6>
+							<h6 class="card-title">
+								Recycle Activity (kgCO2):
+								<fmt:formatNumber type="number" maxFractionDigits="4"
+									value="${carbonReportAnalysis.totalRecycleCarbon}" />
+							</h6>
+						</div>
+					</div>
+				</div>
 				<div id="chart_div"></div>
 				<div>
 					<c:forEach items="${category}" var="category" varStatus="loop">
@@ -224,7 +259,8 @@
 											<td>${application.waterConsumption}</td>
 											<td>${application.electricityConsumption}</td>
 											<td>${application.recycle}</td>
-											<td>${application.carbonEmission}</td>
+											<td><fmt:formatNumber type="number"
+													maxFractionDigits="4" value="${application.carbonEmission}" /></td>
 											<c:set var="inCategory" value="true" />
 										</tr>
 									</c:if>
