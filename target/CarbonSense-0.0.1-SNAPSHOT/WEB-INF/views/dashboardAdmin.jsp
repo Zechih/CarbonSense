@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="com.model.CarbonRegion"%>
+<%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,8 +13,105 @@
     <link rel="stylesheet" href="./resources/css/headerAdmin.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
+</head>
+<style>
+    .report-collection {
+        display: flex;
+    }
 
+    .report-card {
+        display: flex;
+        align-items: flex-start;
+        width: 300px;
+        padding: 1%;
+        border: 1px solid grey;
+        border-radius: 5px;
+        margin: 3% 0 0 5%;
+    }
+
+    .report-card svg {
+        margin: 10px 20px 10px 10px;
+    }
+</style>
+
+<body>
+    <%
+	String[] regions = {"Pulai Indah", "Kangkar Pulai", "Pulai Utama", "Sri Pulai", "Taman Universiti", "Mutiara Rini",
+			"Lima Kedai", "Nusa Bayu", "Gelang Patah", "Leisure Farm", "Tanjung Kupang", "Medini Iskandar", "Kota Iskandar",
+			"Bukit Horizon", "Impian Emas", "Sri Skudai", "Skudai", "Skudai Baru", "Selesa Jaya", "Tun Aminah",
+			"Nusa Bestari", "Bukit Indah", "Sutera Utama", "Perling"};
+
+	pageContext.setAttribute("region", regions);
+	ArrayList<CarbonRegion> carbonRegionList = (ArrayList<CarbonRegion>) request.getAttribute("carbonRegionList");
+	%>
+    <jsp:include page="headerAdmin.jsp" />
+    <div class="title">
+        <h1>DASHBOARD</h1>
+    </div>
+    <script type="text/javascript">
+    /* pie chart1 */
+	google.charts.load('current', {
+		packages : [ 'corechart' ]
+	}).then(
+			function() {
+				var data = google.visualization.arrayToDataTable([
+						[ 'Activity', 'CarbonFootprint' ],
+						[ 'Water Consumption', ${carbonReportAnalysis.totalWaterCarbon} ],
+						[ 'Electricity Consumption', ${carbonReportAnalysis.totalElectricityCarbon} ],
+						[ 'Recycle Activity', ${carbonReportAnalysis.totalRecycleCarbon} ] ]);
+
+				var options = {
+					width : 500,
+					height : 300,
+					title : 'Carbon Footprint',
+					pieHole : 0.4,
+					chartArea: {top: 40, bottom: 1},
+				};
+
+				var chart = new google.visualization.PieChart(document
+						.getElementById('donutchart'));
+				chart.draw(data, options);
+			});
+	
+	/* bar chart */
+	google.charts.load('current', {packages: ['corechart', 'bar']});
+	google.charts.setOnLoadCallback(drawBarColors);
+	
+	function drawBarColors() {
+		var data = google.visualization.arrayToDataTable([
+	        ['Region', 'Water', 'Electricity', 'Recycle', { role: 'annotation' } ],
+	        <%	
+	        for (String region : regions) {
+	            boolean isInList = false;
+	            for (CarbonRegion carbonRegion : carbonRegionList) {
+	                if (region.equals(carbonRegion.getRegion())) {
+	                    isInList = true;
+	                    out.println("['" + carbonRegion.getRegion() + "', " + carbonRegion.getWater_Carbon() + ", "
+	                            + carbonRegion.getElectricity_Carbon() + ", " + carbonRegion.getRecycle_Carbon() + ", ''],");
+	                    break;
+	                }
+	            }
+	            if (!isInList) {
+	                out.println("['" + region + "', 0, 0, 0, ''], ");
+	            }
+	        }
+			%>
+	      ]);
+
+	      var options = {
+	        width: 1000,
+	        height: 600,
+	        legend: { position: 'top', maxLines: 3 },
+	        bar: { groupWidth: '75%' },
+	        chartArea: {top: 20, bottom: 70},
+	        isStacked: true
+	      };
+	      
+	      var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+	      chart.draw(data, options);
+	    }
+	
+		//chart
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
 
@@ -37,38 +137,6 @@
             chart.draw(data, options);
         }
     </script>
-    <script>
-        $(document).ready(function () {
-            $("#header").load("headerAdmin.html");
-        });
-    </script>
-</head>
-<style>
-    .report-collection {
-        display: flex;
-    }
-
-    .report-card {
-        display: flex;
-        align-items: flex-start;
-        width: 300px;
-        padding: 1%;
-        border: 1px solid grey;
-        border-radius: 5px;
-        margin: 3% 0 0 5%;
-    }
-
-    .report-card svg {
-        margin: 10px 20px 10px 10px;
-    }
-</style>
-
-<body>
-    <!-- <div id="header"></div> -->
-    <jsp:include page="headerAdmin.jsp" />
-    <div class="title">
-        <h1>DASHBOARD</h1>
-    </div>
     <div class="report-collection">
         <div class="report-card">
             <div>
@@ -81,7 +149,7 @@
                 </svg>
             </div>
             <div>
-                <h2>1290 Participant</h2>
+                <h2><b id="totalP"></b> Participant</h2>
             </div>
         </div>
         <div class="report-card">
@@ -95,7 +163,7 @@
                 </svg>
             </div>
             <div>
-                <h2>81887 Emission</h2>
+                <h2><b id="carbonF"></b> Emission</h2>
             </div>
         </div>
         <div class="report-card">
@@ -109,12 +177,25 @@
                 </svg>
             </div>
             <div>
-                <h2>1290 Submission</h2>
+                <h2><b id="totalS"></b> Submission</h2>
             </div>
         </div>
     </div>
     <div>
-        <div id="environmentChart" style="width: 1000px; height: 400px;"></div>
+        <div id="donutchart"></div>
+		<div id="chart_div"></div>
+		<!-- <div id="environmentChart" style="width: 1000px; height: 400px;"></div> -->
     </div>
 </body>
+<script>
+ 	var carbonF_Element = document.getElementById('carbonF');
+	var totalP_Element = document.getElementById('totalP');
+	var totalS_Element = document.getElementById('totalS');
+	function updateData() {
+		carbonF_Element.textContent = ${carbonReportAnalysis.totalCarbonEmission};
+		totalP_Element.textContent = ${totalParticipant};
+		totalS_Element.textContent = ${totalSubmission};
+    }
+    updateData(); 
+</script>
 </html>

@@ -28,6 +28,10 @@
     margin: 10px 20px 10px 10px;
 }
 
+.report-details {
+	margin: 10px 40px 50px 40px;
+}
+
 #environmentTable {
     font-size: 10px;
 }

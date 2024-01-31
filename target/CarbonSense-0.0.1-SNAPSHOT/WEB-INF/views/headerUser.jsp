@@ -66,7 +66,7 @@
 						<nav class="nav nav-pills flex-column">
 							<a class="nav-link ms-3 my-1" href="./waterconsumption.html" style="color: inherit;">
 								<h5>Water Consumption</h5>
-							</a> <a class="nav-link ms-3 my-1" href="./electricityconsumption.html"
+							</a> <a class="nav-link ms-3 my-1" href="./electricityConsumption"
 								style="color: inherit;">
 								<h5>Electricity Consumption</h5>
 							</a> <a class="nav-link ms-3 my-1" href="./recycleactivity.html" style="color: inherit;">
