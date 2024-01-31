@@ -42,6 +42,23 @@ public class ElectricValidateDAO {
 	    }
 	}
 	
+	public void disapproveElectric(int electricityID) {
+	    try (Connection conn = openConnection();
+	         PreparedStatement stmt = conn.prepareStatement("UPDATE electricityconsumption SET status = 'DISAPPROVED' WHERE electricityID = ?;")) {
+
+	        stmt.setInt(1, electricityID);
+	        int affectedRows = stmt.executeUpdate();
+
+	        if (affectedRows > 0) {
+	            System.out.println("Electricity consumption disapproved successfully.");
+	        } else {
+	            System.out.println("Failed to disapprove electricity consumption.");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
 	public void deleteElectric(int electricityID) {
 	    try (Connection conn = openConnection()) {
 	    	

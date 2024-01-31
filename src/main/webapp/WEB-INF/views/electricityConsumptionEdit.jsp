@@ -50,32 +50,36 @@
 				<div>
 					<label for="days" class="form-label">The number of days for
 						each month</label> <input type="text" class="form-control" id="days"
-						value="" readonly disabled>
+						value="" readonly>
 				</div>
 				<div>
 					<label for="proportionalFactor" class="form-label">Proportional
 						Factor</label> <input type="text" class="form-control"
 						id="proportionalFactor" name="proportionalFactor"
-						value="${electricityCon.electricityProportionalFactor}" required
-						disabled>
+						value="${electricityCon.electricityProportionalFactor}" required>
 				</div>
 				<div>
 					<label for="waterUsageRM" class="form-label">The current
 						electric usage value (in RM)</label> <input type="text"
 						class="form-control" id="electricityUsageRM"
 						name="electricityUsageRM"
-						value="${electricityCon.electricUsageValueRM}" required disabled>
+						value="${electricityCon.electricUsageValueRM}" required>
 				</div>
 				<div>
 					<label for="waterUsageM3" class="form-label">The current
 						electric usage value (kWh)</label> <input type="text" class="form-control"
 						id="electricityUsageM3" name="electricityUsageM3"
-						value="${electricityCon.electricUsageValueM3}" required disabled>
+						value="${electricityCon.electricUsageValueM3}" required>
 				</div>
 			</div>
 			<div class="form-upload">
 				<div>
-					<label for="billImage" class="form-label">Uploaded bill</label>
+					<label for="billImage" class="form-label">Upload your bill
+						according to the selected month</label> <input type="file"
+						class="form-control" id="billImage" name="billImage">
+				</div>
+				<div>
+					<br><label for="uploadedbillImage" class="form-label">Uploaded bill</label>
 					<button type="button" class="btn btn-outline-secondary"
 						data-bs-toggle="modal" data-bs-target="#Modal">
 						Image
@@ -105,8 +109,10 @@
 						</c:otherwise>
 					</c:choose>
 				</div>
+				<input type="hidden" id="userID" name="userID" value="${userID }">
 				<div class="submit-btn">
-					<a href="electricityConsumptionEdit?userID=${userID}" ><button type="button" class="btn btn-primary">Edit</button></a>
+					<button type="button" class="btn btn-secondary">Cancel</button>
+					<input type="submit" class="btn btn-success" value="Submit">
 				</div>
 			</div>
 		</div>
