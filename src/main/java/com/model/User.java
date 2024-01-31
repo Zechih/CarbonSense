@@ -16,6 +16,7 @@ public class User {
     private String region;
     private String role;
     private String status;
+    private String password;
 
     // Constructors
     public User() {
@@ -39,6 +40,7 @@ public class User {
         this.region = region;
         this.role = role;
         this.status = status;
+        this.password = password;
     }
 
     // Getters and Setters
@@ -152,6 +154,14 @@ public class User {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void setPassword(String password){
+        this.password=password;
+    }
+
+    public String getPassword(){
+        return password;
     }
 
     @Override

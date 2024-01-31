@@ -32,7 +32,7 @@
         <h2><img src="${pageContext.request.contextPath}/resources/images/mbiplogo.png" alt="MBIP Logo" width="450px"></h2>
         <br>
         <div class="input-wrapper">
-            <form action="login" method="post"> 
+            <form action="${pageContext.request.contextPath}/authenticate" method="post"> 
                 <input type="text" name="email" placeholder="Email" required>
                 <br><br>
                 <input type="password" name="password" placeholder="Password" required>
@@ -42,7 +42,7 @@
         </div>
         <br>
         <div class="register-link">
-            <a href="${pageContext.request.contextPath}/register/new">Click me for Register</a>
+            <a href="${pageContext.request.contextPath}/register">Click me for Register</a>
         </div>
         <br>
     </div>

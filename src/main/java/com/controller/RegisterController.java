@@ -3,7 +3,6 @@ package com.controller;
 import com.model.User;
 import com.dbUtil.DBConnect;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -18,51 +17,60 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/register")
 public class RegisterController {
 
-    @GetMapping("/new")
+    @GetMapping
     public String showRegistrationForm() {
         return "registration";
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ModelAndView registerUser(User user) {
-        ModelAndView modelAndView = new ModelAndView("registration-success");
+        ModelAndView modelAndView = new ModelAndView("registersuccessful");
 
         // Perform any additional validation or processing here
         Connection conn = null;
-        PreparedStatement preparedStatement = null;
+        PreparedStatement registerStmt = null;
 
         try {
             conn = DBConnect.openConnection();
+            conn.setAutoCommit(false); 
 
             String sql = "INSERT INTO users (Email, IC, FirstName, LastName, Gender, PhoneNumber, "
-                    + "Occupation, Address, Category, AddressProof, Region) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "Occupation, Address, Category, AddressProof, Region, Password) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, user.getEmail());
-            preparedStatement.setString(2, user.getIc());
-            preparedStatement.setString(3, user.getFirstName());
-            preparedStatement.setString(4, user.getLastName());
-            preparedStatement.setString(5, user.getGender());
-            preparedStatement.setString(6, user.getPhoneNumber());
-            preparedStatement.setString(7, user.getOccupation());
-            preparedStatement.setString(8, user.getAddress());
-            preparedStatement.setString(9, user.getCategory());
-            preparedStatement.setString(10, user.getAddressProof());
-            preparedStatement.setString(11, user.getRegion());
+            registerStmt = conn.prepareStatement(sql);
 
-            preparedStatement.executeUpdate();
+            registerStmt.setString(1, user.getEmail());
+            registerStmt.setString(2, user.getIc());
+            registerStmt.setString(3, user.getFirstName());
+            registerStmt.setString(4, user.getLastName());
+            registerStmt.setString(5, user.getGender());
+            registerStmt.setString(6, user.getPhoneNumber());
+            registerStmt.setString(7, user.getOccupation());
+            registerStmt.setString(8, user.getAddress());
+            registerStmt.setString(9, user.getCategory());
+            registerStmt.setString(10, user.getAddressProof());
+            registerStmt.setString(11, user.getRegion());
+            registerStmt.setString(12, user.getPassword());
+
+            registerStmt.executeUpdate();
+
+            conn.commit(); 
 
             // Set the user object as a model attribute for the view
             modelAndView.addObject("user", user);
+            modelAndView.setViewName("registersuccessful");
+        
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle database errors or validation errors here
+
+            modelAndView.setViewName("registration"); 
+            modelAndView.addObject("error", "Registration failed. Please try again.");
         } finally {
             try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
+                if (registerStmt != null) {
+                    registerStmt.close();
                 }
                 if (conn != null) {
                     conn.close();
