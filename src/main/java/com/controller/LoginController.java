@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ public class LoginController {
     }
 
     @RequestMapping("/authenticate")
-    protected ModelAndView authenticateUser(HttpServletRequest request) throws SQLException {
+    protected ModelAndView authenticateUser(HttpServletRequest request, HttpSession session) throws SQLException {
         ModelAndView model;
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -37,7 +38,9 @@ public class LoginController {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    // Authentication successful, redirect to home page or another secured page
+                    
+                    session.setAttribute("email", email);
+
                     model = new ModelAndView("redirect:/home");
                 } else {
                     // Invalid credentials, redirect back to login page with an error message
@@ -51,8 +54,13 @@ public class LoginController {
     }
 
     @RequestMapping("/home")
-    protected ModelAndView getHomePage() {
-        ModelAndView model = new ModelAndView("home");
+    protected ModelAndView getHomePage(HttpSession session) {
+        ModelAndView model = new ModelAndView("dashboard");
+
+                String email = (String) session.getAttribute("email");
+        
+                model.addObject("email", email);
+
         return model;
     }
 }
