@@ -61,7 +61,7 @@ public class ElectricConDAO {
 			byte[] fileBytes, int electricityID) {
 		try (Connection conn = openConnection()) {
 
-			String updateElectricitySql = "UPDATE electricityconsumption SET electricityProportionalFactor = ?, electricUsageValueRM = ?, electricUsageValueM3 = ?, electricConsumptionProof = ?, status = 'DISAPPROVED' WHERE electricityID = ?";
+			String updateElectricitySql = "UPDATE electricityconsumption SET electricityProportionalFactor = ?, electricUsageValueRM = ?, electricUsageValueM3 = ?, electricConsumptionProof = ?, status = 'PENDING' WHERE electricityID = ?";
 			try (PreparedStatement electricityStmt = conn.prepareStatement(updateElectricitySql)) {
 
 				electricityStmt.setFloat(1, proportionalFactor);
@@ -80,7 +80,7 @@ public class ElectricConDAO {
 	public void updateElectricConNoProof(float proportionalFactor, float electricityUsageRM, float electricityUsageM3, int electricityID) {
 		try (Connection conn = openConnection()) {
 
-			String updateElectricitySql = "UPDATE electricityconsumption SET electricityProportionalFactor = ?, electricUsageValueRM = ?, electricUsageValueM3 = ?, status = 'DISAPPROVED' WHERE electricityID = ?";
+			String updateElectricitySql = "UPDATE electricityconsumption SET electricityProportionalFactor = ?, electricUsageValueRM = ?, electricUsageValueM3 = ?, status = 'PENDING' WHERE electricityID = ?";
 			try (PreparedStatement electricityStmt = conn.prepareStatement(updateElectricitySql)) {
 
 				electricityStmt.setFloat(1, proportionalFactor);
@@ -97,7 +97,7 @@ public class ElectricConDAO {
 
 	public void insertElectricConAndUpdateApplication(float proportionalFactor, float electricityUsageRM,
 			float electricityUsageM3, byte[] fileBytes, int applicationID) throws SQLException {
-		String insertElectricitySql = "INSERT INTO electricityconsumption (electricityProportionalFactor, electricUsageValueRM, electricUsageValueM3, electricConsumptionProof, status) VALUES (?, ?, ?, ?, 'DISAPPROVED');";
+		String insertElectricitySql = "INSERT INTO electricityconsumption (electricityProportionalFactor, electricUsageValueRM, electricUsageValueM3, electricConsumptionProof, status) VALUES (?, ?, ?, ?, 'PENDING');";
 
 		try (Connection conn = openConnection()) {
 			try (PreparedStatement electricityStmt = conn.prepareStatement(insertElectricitySql,
@@ -135,7 +135,7 @@ public class ElectricConDAO {
 
 	public void insertElectricConAndCreateApplication(float proportionalFactor, float electricityUsageRM,
 			float electricityUsageM3, byte[] fileBytes, int userID, LocalDate currentDate) throws SQLException {
-		String insertElectricitySql = "INSERT INTO electricityconsumption (electricityProportionalFactor, electricUsageValueRM, electricUsageValueM3, electricConsumptionProof, status) VALUES (?, ?, ?, ?, 'DISAPPROVED');";
+		String insertElectricitySql = "INSERT INTO electricityconsumption (electricityProportionalFactor, electricUsageValueRM, electricUsageValueM3, electricConsumptionProof, status) VALUES (?, ?, ?, ?, 'PENDING');";
 
 		try (Connection conn = openConnection()) {
 			try (PreparedStatement electricityStmt = conn.prepareStatement(insertElectricitySql,
