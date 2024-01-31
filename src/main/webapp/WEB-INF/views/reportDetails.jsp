@@ -242,9 +242,6 @@
 					onclick="CreatePDFfromHTML()">
 					<i class="bi bi-file-earmark-arrow-down"></i> PDF
 				</button>
-				<button type="button" class="btn btn-success">
-					<i class="bi bi-file-earmark-arrow-down"></i> Excel
-				</button>
 			</div>
 		</div>
 	</div>

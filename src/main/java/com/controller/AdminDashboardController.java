@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dbUtil.AdminDashboardDAO;
 import com.dbUtil.DBConnect;
 import com.model.CarbonCalculation;
 import com.model.CarbonRegion;
@@ -20,33 +21,19 @@ public class AdminDashboardController {
 	protected ModelAndView getDashboardAdminPage() throws SQLException {
 		ModelAndView model = new ModelAndView("dashboardAdmin");
 		Connection conn = DBConnect.openConnection();
+		AdminDashboardDAO adminDashboardDAO = new AdminDashboardDAO();
 
 		// donnut graph
 		CarbonReportAnalysis carbonReportAnalysis = new CarbonReportAnalysis();
 
-		String waterSql = "SELECT SUM(WaterUsageValueM3) AS totalWaterConsumption FROM waterconsumption WHERE status = 'APPROVED'";
-		try (ResultSet waterRs = conn.createStatement().executeQuery(waterSql)) {
-			if (waterRs.next()) {
-				carbonReportAnalysis.setTotalWaterCarbon(
-						CarbonCalculation.calWaterCarbon(waterRs.getFloat("totalWaterConsumption")));
-			}
-		}
+		carbonReportAnalysis
+				.setTotalWaterCarbon(CarbonCalculation.calWaterCarbon(adminDashboardDAO.getTotalWaterConsumption()));
 
-		String electricitySql = "SELECT SUM(ElectricUsageValueM3) AS totalElectricityConsumption FROM electricityconsumption WHERE status = 'APPROVED'";
-		try (ResultSet electricityRs = conn.createStatement().executeQuery(electricitySql)) {
-			if (electricityRs.next()) {
-				carbonReportAnalysis.setTotalElectricityCarbon(
-						CarbonCalculation.calElectricityCarbon(electricityRs.getFloat("totalElectricityConsumption")));
-			}
-		}
+		carbonReportAnalysis.setTotalElectricityCarbon(
+				CarbonCalculation.calElectricityCarbon(adminDashboardDAO.getTotalElectricityConsumption()));
 
-		String recycleSql = "SELECT SUM(RecycleKG) AS totalRecycle FROM recycle WHERE status = 'APPROVED'";
-		try (ResultSet recycleRs = conn.createStatement().executeQuery(recycleSql)) {
-			if (recycleRs.next()) {
-				carbonReportAnalysis
-						.setTotalRecycleCarbon(CarbonCalculation.calRecycleCarbon(recycleRs.getFloat("totalRecycle")));
-			}
-		}
+		carbonReportAnalysis
+				.setTotalRecycleCarbon(CarbonCalculation.calRecycleCarbon(adminDashboardDAO.getTotalRecycle()));
 
 		carbonReportAnalysis.setTotalCarbonEmission(carbonReportAnalysis.getTotalWaterCarbon()
 				+ carbonReportAnalysis.getTotalElectricityCarbon() + carbonReportAnalysis.getTotalRecycleCarbon());
@@ -74,20 +61,12 @@ public class AdminDashboardController {
 
 		// total participant
 
-		String totalP_Sql = "SELECT COUNT(users.userID) AS totalParticipant FROM users WHERE status = 'APPROVED'";
-		try (ResultSet totalP_Rs = conn.createStatement().executeQuery(totalP_Sql)) {
-			if (totalP_Rs.next()) {
-				model.addObject("totalParticipant", totalP_Rs.getInt("totalParticipant"));
-			}
-		}
+		model.addObject("totalParticipant", adminDashboardDAO.getTotalParticipants());
 
 		// total submission
-		String totalS_Sql = "SELECT COUNT(application.applicationID) AS totalSubmission FROM application";
-		try (ResultSet totalS_Rs = conn.createStatement().executeQuery(totalS_Sql)) {
-			if (totalS_Rs.next()) {
-				model.addObject("totalSubmission", totalS_Rs.getInt("totalSubmission"));
-			}
-		}
+
+		model.addObject("totalSubmission", adminDashboardDAO.getTotalSubmissions());
+
 		return model;
 	}
 }

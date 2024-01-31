@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dbUtil.DBConnect;
+import com.dbUtil.ElectricValidateDAO;
 import com.model.ElectricityValidation;
 
 @Controller
@@ -43,11 +44,8 @@ public class ElectricityValidationController {
 	@RequestMapping("/electricityValidationApprove")
 	protected ModelAndView electricityValidationApprove(@RequestParam("electricityID") int electricityID) throws SQLException {
 		
-		Connection conn = DBConnect.openConnection();
-		String approveSql = "UPDATE electricityconsumption SET status = 'APPROVED' WHERE electricityID = ?;";
-		PreparedStatement stmt = conn.prepareStatement(approveSql);
-		stmt.setInt(1, electricityID);
-		int rs = stmt.executeUpdate();
+		ElectricValidateDAO electricValidateDAO = new ElectricValidateDAO();
+		electricValidateDAO.approveElectric(electricityID);
 		
 		ModelAndView model = new ModelAndView("electricityValidationResponse");
 		model.addObject("message", "Approve successfully");
@@ -57,16 +55,8 @@ public class ElectricityValidationController {
 	@RequestMapping("/electricityValidationDelete")
 	protected ModelAndView electricityValidationDelete(@RequestParam("electricityID") int electricityID) throws SQLException {
 		
-		Connection conn = DBConnect.openConnection();
-		String updateSql = "UPDATE application SET electricityID = NULL WHERE electricityID = ?;";
-		PreparedStatement updateStmt = conn.prepareStatement(updateSql);
-		updateStmt.setInt(1, electricityID);
-		int updateRs = updateStmt.executeUpdate();
-		
-		String deleteSql = "DELETE FROM electricityconsumption WHERE electricityID = ?;";
-		PreparedStatement stmt = conn.prepareStatement(deleteSql);
-		stmt.setInt(1, electricityID);
-		int rs = stmt.executeUpdate();
+		ElectricValidateDAO electricValidateDAO = new ElectricValidateDAO();
+		electricValidateDAO.deleteElectric(electricityID);
 		
 		ModelAndView model = new ModelAndView("electricityValidationResponse");
 		model.addObject("message", "Delete successfully");

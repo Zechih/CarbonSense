@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dbUtil.DBConnect;
+import com.dbUtil.ReportDAO;
 import com.model.Application;
 import com.model.CarbonCalculation;
 import com.model.CarbonRegion;
@@ -59,6 +60,7 @@ public class ReportController {
 		ArrayList<Application> applicationList = new ArrayList<Application>();
 		ArrayList<CarbonRegion> carbonRegionList = new ArrayList<CarbonRegion>();
 		CarbonReportAnalysis carbonReportAnalysis = new CarbonReportAnalysis();
+		ReportDAO reportDAO = new ReportDAO();
 
 		while (rs.next()) {
 			float waterCarbon = 0;
@@ -67,43 +69,33 @@ public class ReportController {
 			float totalEmission = 0;
 			Application application = new Application();
 
-			String userSql = "SELECT FirstName, LastName, Region, Category FROM users WHERE UserID = "
-					+ rs.getInt("UserID");
-			ResultSet userRs = conn.createStatement().executeQuery(userSql);
+			String userSql = "SELECT FirstName, LastName, Region, Category FROM users WHERE UserID = ?";
+			PreparedStatement userStmt = conn.prepareStatement(userSql);
+			userStmt.setInt(1, rs.getInt("UserID"));
+			ResultSet userRs = userStmt.executeQuery();
 			if (userRs.next()) {
 				application.setName(userRs.getString("FirstName") + " " + userRs.getString("LastName"));
 				application.setCategory(userRs.getString("Category"));
 				application.setRegion(userRs.getString("Region"));
 			}
 
-			String waterSql = "SELECT waterUsageValueM3 FROM waterConsumption WHERE WaterID = " + rs.getInt("WaterID") + " AND status = 'APPROVED'";
-			ResultSet waterRs = conn.createStatement().executeQuery(waterSql);
-			if (waterRs.next()) {
-				waterCarbon = CarbonCalculation.calWaterCarbon(waterRs.getFloat("waterUsageValueM3"));
-				application.setWaterConsumption(waterRs.getFloat("waterUsageValueM3"));
-				totalEmission = totalEmission + waterCarbon;
-				totalWaterCarbon = totalWaterCarbon + waterCarbon;
-			}
+			float waterUsageValueM3 = reportDAO.getWaterUsageValueM3(rs.getInt("WaterID"));
+			waterCarbon = CarbonCalculation.calWaterCarbon(waterUsageValueM3);
+			application.setWaterConsumption(waterUsageValueM3);
+			totalEmission = totalEmission + waterCarbon;
+			totalWaterCarbon = totalWaterCarbon + waterCarbon;
 
-			String electricitySql = "SELECT electricUsageValueM3 FROM electricityConsumption WHERE ElectricityID = "
-					+ rs.getInt("ElectricityID") + " AND status = 'APPROVED'";
-			ResultSet electricityRs = conn.createStatement().executeQuery(electricitySql);
-			if (electricityRs.next()) {
-				electricityCarbon = CarbonCalculation
-						.calElectricityCarbon(electricityRs.getFloat("electricUsageValueM3"));
-				application.setElectricityConsumption(electricityRs.getFloat("electricUsageValueM3"));
-				totalEmission = totalEmission + electricityCarbon;
-				totalElectricityCarbon = totalElectricityCarbon + electricityCarbon;
-			}
+			float electricUsageValueM3 = reportDAO.getElectricityUsageValueM3(rs.getInt("ElectricityID"));
+			electricityCarbon = CarbonCalculation.calElectricityCarbon(electricUsageValueM3);
+			application.setElectricityConsumption(electricUsageValueM3);
+			totalEmission = totalEmission + electricityCarbon;
+			totalElectricityCarbon = totalElectricityCarbon + electricityCarbon;
 
-			String recycleSql = "SELECT recycleKG FROM recycle WHERE RecycleID = " + rs.getInt("RecycleID") + " AND status = 'APPROVED'";
-			ResultSet recycleRs = conn.createStatement().executeQuery(recycleSql);
-			if (recycleRs.next()) {
-				recycleCarbon = CarbonCalculation.calRecycleCarbon(recycleRs.getFloat("recycleKG"));
-				application.setRecycle(recycleRs.getFloat("recycleKG"));
-				totalEmission = totalEmission + recycleCarbon;
-				totalRecycleCarbon = totalRecycleCarbon + recycleCarbon;
-			}
+			float recycleKG = reportDAO.getRecycleKG(rs.getInt("RecycleID"));
+			recycleCarbon = CarbonCalculation.calRecycleCarbon(recycleKG);
+			application.setRecycle(recycleKG);
+			totalEmission = totalEmission + recycleCarbon;
+			totalRecycleCarbon = totalRecycleCarbon + recycleCarbon;
 
 			totalCarbonEmission = totalCarbonEmission + totalEmission;
 			application.setCarbonEmission(totalEmission);
@@ -144,7 +136,7 @@ public class ReportController {
 		if (totalCarbonEmission == 0) {
 			return new ModelAndView("/reportError");
 		}
-		
+
 		model.addObject("carbonRegionList", carbonRegionList);
 		model.addObject("applicationList", applicationList);
 		model.addObject("carbonReportAnalysis", carbonReportAnalysis);
