@@ -18,3 +18,4 @@ com\dbUtil\ElectricConDAO.class
 com\model\CarbonRegion.class
 com\model\User.class
 com\model\CarbonCalculation.class
+com\controller\ProfileController.class
