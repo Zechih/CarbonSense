@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-
+<%@ page import="com.model.CarbonRegion"%>
+<%@ page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
+<title>Report</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -31,11 +32,7 @@
 <script type="text/javascript"
 	src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
-<script type='text/javascript'>
-	$(document).ready(function() {
-		$("#header").load("headerAdmin.html");
-	});
-</script>
+
 <!-- table script -->
 <script>
 	function sortTable(columnIndex) {
@@ -75,8 +72,80 @@
 	<div class="title">
 		<h1>REPORT</h1>
 	</div>
+	<%
+	String[] categorys = {"Housing (High Rise)", "Housing (Landed)", "Institution", "MBIP staff and divisions"};
+	pageContext.setAttribute("category", categorys);
+	String[] regions = {"Pulai Indah", "Kangkar Pulai", "Pulai Utama", "Sri Pulai", "Taman Universiti", "Mutiara Rini",
+			"Lima Kedai", "Nusa Bayu", "Gelang Patah", "Leisure Farm", "Tanjung Kupang", "Medini Iskandar", "Kota Iskandar",
+			"Bukit Horizon", "Impian Emas", "Sri Skudai", "Skudai", "Skudai Baru", "Selesa Jaya", "Tun Aminah",
+			"Nusa Bestari", "Bukit Indah", "Sutera Utama", "Perling"};
 
+	pageContext.setAttribute("region", regions);
+	ArrayList<CarbonRegion> carbonRegionList = (ArrayList<CarbonRegion>) request.getAttribute("carbonRegionList");
+	%>
 	<div>
+		<script type="text/javascript">
+			/* pie chart1 */
+			google.charts.load('current', {
+				packages : [ 'corechart' ]
+			}).then(
+					function() {
+						var data = google.visualization.arrayToDataTable([
+								[ 'Activity', 'CarbonFootprint' ],
+								[ 'Water Consumption', ${carbonReportAnalysis.totalWaterCarbon} ],
+								[ 'Electricity Consumption', ${carbonReportAnalysis.totalElectricityCarbon} ],
+								[ 'Recycle Activity', ${carbonReportAnalysis.totalRecycleCarbon} ] ]);
+
+						var options = {
+							width : 500,
+							height : 300,
+							title : 'Carbon Footprint',
+							pieHole : 0.4,
+							chartArea: {top: 40, bottom: 1},
+						};
+
+						var chart = new google.visualization.PieChart(document
+								.getElementById('donutchart'));
+						chart.draw(data, options);
+					});
+			
+			/* bar chart */
+			google.charts.load('current', {packages: ['corechart', 'bar']});
+			google.charts.setOnLoadCallback(drawBarColors);
+			
+			function drawBarColors() {
+				var data = google.visualization.arrayToDataTable([
+			        ['Region', 'Water', 'Electricity', 'Recycle', { role: 'annotation' } ],
+			        <%for (String region : regions) {
+	boolean isInList = false;
+	for (CarbonRegion carbonRegion : carbonRegionList) {
+		if (region.equals(carbonRegion.getRegion())) {
+			isInList = true;
+			out.println("['" + carbonRegion.getRegion() + "', " + carbonRegion.getWater_Carbon() + ", "
+					+ carbonRegion.getElectricity_Carbon() + ", " + carbonRegion.getRecycle_Carbon() + ", ''],");
+			break;
+		}
+	}
+	if (!isInList) {
+		out.println("['" + region + "', 0, 0, 0, ''], ");
+	}
+}%>
+			      ]);
+
+			      var options = {
+			        width: 1000,
+			        height: 600,
+			        legend: { position: 'top', maxLines: 3 },
+			        bar: { groupWidth: '75%' },
+			        chartArea: {top: 20, bottom: 70},
+			        isStacked: true
+			      };
+			      
+			      var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+			      chart.draw(data, options);
+			    }
+			
+		</script>
 		<script>
 			//Create PDf from HTML...
 			function CreatePDFfromHTML() {
@@ -122,72 +191,59 @@
 								});
 			}
 		</script>
-		<div>
-
+		<div class="report-details">
 			<div id="target">
 				<div id="donutchart"></div>
+				<div id="chart_div"></div>
 				<div>
-					<table class="table" id="environmentTable">
-						<thead>
-							<tr>
-								<th onclick="sortTable(0)">Name</th>
-								<th onclick="sortTable(1)">Water Consumption</th>
-								<th onclick="sortTable(2)">Electricity Consumption</th>
-								<th onclick="sortTable(3)">Recycle Activity</th>
-								<th onclick="sortTable(4)">Total Carbon Emission</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${applicationList}" var="application"
-								varStatus="loop">
+					<c:forEach items="${category}" var="category" varStatus="loop">
+						<h4>
+							<c:out value="${category}"></c:out>
+						</h4>
+						<table class="table" id="environmentTable">
+							<thead>
 								<tr>
-									<td>${application.name}</td>
-									<td>${application.waterConsumption}liters</td>
-									<td>${application.electricityConsumption}kWh</td>
-									<td>${application.recycle}kg</td>
-									<td>${application.carbonEmission}kgCO2</td>
+									<th>#</th>
+									<th onclick="sortTable(0)">Name</th>
+									<th onclick="sortTable(1)">Water Consumption (liters)</th>
+									<th onclick="sortTable(2)">Electricity Consumption (kWh)</th>
+									<th onclick="sortTable(3)">Recycle Activity (kg)</th>
+									<th onclick="sortTable(4)">Total Carbon Emission (kgCO2)</th>
 								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								<c:set var="count" value="1" />
+								<c:set var="inCategory" value="false" />
+								<c:forEach items="${applicationList}" var="application"
+									varStatus="loop">
+									<c:if test="${application.category == category}">
+										<tr>
+											<td>${count}</td>
+											<c:set var="count" value="${count + 1}" />
+											<td>${application.name}</td>
+											<td>${application.waterConsumption}</td>
+											<td>${application.electricityConsumption}</td>
+											<td>${application.recycle}</td>
+											<td>${application.carbonEmission}</td>
+											<c:set var="inCategory" value="true" />
+										</tr>
+									</c:if>
+								</c:forEach>
+							</tbody>
+						</table>
+						<c:if test="${inCategory == false}">
+							<c:out value="No Submission"></c:out>
+						</c:if>
+					</c:forEach>
 				</div>
 			</div>
-			<div>
-				<button type="button" class="btn btn-secondary"
-					data-bs-dismiss="modal">Close</button>
+			<div style="padding-top: 40px">
 				<button type="button" class="btn btn-danger"
 					onclick="CreatePDFfromHTML()">
 					<i class="bi bi-file-earmark-arrow-down"></i> PDF
-				</button>
-				<button type="button" class="btn btn-success">
-					<i class="bi bi-file-earmark-arrow-down"></i> Excel
 				</button>
 			</div>
 		</div>
 	</div>
 </body>
-<script type="text/javascript">
-	/* pie chart1 */
-	google.charts.load('current', {
-		packages : [ 'corechart' ]
-	}).then(
-			function() {
-				var data = google.visualization.arrayToDataTable([
-						[ 'Activity', 'CarbonFootprint' ],
-						[ 'Water Consumption', 1200 ],
-						[ 'Electricity Consumption', 2000 ],
-						[ 'Recycle Activity', 1950 ] ]);
-
-				var options = {
-					width : 700,
-					height : 400,
-					title : 'Carbon Footprint',
-					pieHole : 0.4,
-				};
-
-				var chart = new google.visualization.PieChart(document
-						.getElementById('donutchart'));
-				chart.draw(data, options);
-			});
-</script>
 </html>
