@@ -49,8 +49,10 @@ public class ReportController {
 		Connection conn = DBConnect.openConnection();
 		String sql = "SELECT * FROM application WHERE DATE_FORMAT(`date`, '%Y') = ? AND DATE_FORMAT(`date`, '%m') = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, Integer.parseInt(request.getParameter("year")));
-		stmt.setInt(2, Integer.parseInt(request.getParameter("month")));
+		int year = Integer.parseInt(request.getParameter("year"));
+		int month = Integer.parseInt(request.getParameter("month"));
+		stmt.setInt(1, year);
+		stmt.setInt(2, month);
 		ResultSet rs = stmt.executeQuery();
 		float totalWaterCarbon = 0;
 		float totalElectricityCarbon = 0;
@@ -136,7 +138,8 @@ public class ReportController {
 		if (totalCarbonEmission == 0) {
 			return new ModelAndView("/reportError");
 		}
-
+		
+		model.addObject("date", month +"-"+ year);
 		model.addObject("carbonRegionList", carbonRegionList);
 		model.addObject("applicationList", applicationList);
 		model.addObject("carbonReportAnalysis", carbonReportAnalysis);
