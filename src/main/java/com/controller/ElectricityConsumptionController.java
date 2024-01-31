@@ -12,15 +12,102 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.dbUtil.DBConnect;
 import com.dbUtil.ElectricConDAO;
+import com.model.ElectricityValidation;
 
 @Controller
 public class ElectricityConsumptionController {
 	@RequestMapping("/electricityConsumption")
-	protected ModelAndView getElectricityConsumptionPage() throws SQLException {
-		ModelAndView model = new ModelAndView("electricityConsumption");
+	protected ModelAndView getElectricityConsumptionPage(@RequestParam("userID") int userID) throws SQLException {
+		try (Connection conn = DBConnect.openConnection()) {
+			LocalDate currentDate = LocalDate.now();
+			String sql = "SELECT * FROM application WHERE userID = ? AND DATE_FORMAT(`date`, '%Y') = ? AND DATE_FORMAT(`date`, '%m') = ?";
+
+			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+				stmt.setInt(1, userID);
+				stmt.setInt(2, currentDate.getYear());
+				stmt.setInt(3, currentDate.getMonthValue());
+
+				try (ResultSet rs = stmt.executeQuery()) {
+					if (rs.next()) {
+						if (rs.getInt("electricityID") > 0) {
+							// Electricity consumption already submitted
+							ElectricConDAO electricConDAO = new ElectricConDAO();
+							ElectricityValidation electricityCon = electricConDAO
+									.getElectricConDetails(rs.getInt("electricityID"));
+							ModelAndView model = new ModelAndView("electricityConsumption");
+							model.addObject("userID", userID);
+							model.addObject("electricityCon", electricityCon);
+							return model;
+						} else {
+							// Redirect to submission form
+							ModelAndView model = new ModelAndView(new RedirectView("electricityConsumptionForm"));
+							model.setViewName("redirect:/electricityConsumptionForm?userID=" + userID);
+							return model;
+						}
+					}
+				}
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+
+		}
+
+		ModelAndView model = new ModelAndView(new RedirectView("electricityConsumptionForm"));
+		model.setViewName("redirect:/electricityConsumptionForm?userID=" + userID);
+		return model;
+	}
+
+	@RequestMapping("/electricityConsumptionForm")
+	protected ModelAndView getElectricityConsumptionFormPage(@RequestParam("userID") int userID) {
+		ModelAndView model = new ModelAndView("electricityConsumptionForm");
+		model.addObject("userID", userID);
+		return model;
+	}
+
+	@RequestMapping("/electricityConsumptionEdit")
+	protected ModelAndView getElectricityConsumptionEditPage(@RequestParam("userID") int userID) {
+		try (Connection conn = DBConnect.openConnection()) {
+			LocalDate currentDate = LocalDate.now();
+			String sql = "SELECT * FROM application WHERE userID = ? AND DATE_FORMAT(`date`, '%Y') = ? AND DATE_FORMAT(`date`, '%m') = ?";
+
+			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+				stmt.setInt(1, userID);
+				stmt.setInt(2, currentDate.getYear());
+				stmt.setInt(3, currentDate.getMonthValue());
+
+				try (ResultSet rs = stmt.executeQuery()) {
+					if (rs.next()) {
+						if (rs.getInt("electricityID") > 0) {
+							// Electricity consumption already submitted
+							ElectricConDAO electricConDAO = new ElectricConDAO();
+							ElectricityValidation electricityCon = electricConDAO
+									.getElectricConDetails(rs.getInt("electricityID"));
+							ModelAndView model = new ModelAndView("electricityConsumptionEdit");
+							model.addObject("userID", userID);
+							model.addObject("electricityCon", electricityCon);
+							return model;
+						} else {
+							// Redirect to submission form
+							ModelAndView model = new ModelAndView(new RedirectView("electricityConsumptionForm"));
+							model.setViewName("redirect:/electricityConsumptionForm?userID=" + userID);
+							return model;
+						}
+					}
+				}
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+
+		}
+
+		ModelAndView model = new ModelAndView(new RedirectView("electricityConsumptionForm"));
+		model.setViewName("redirect:/electricityConsumptionForm?userID=" + userID);
 		return model;
 	}
 
@@ -53,9 +140,15 @@ public class ElectricityConsumptionController {
 				if (rs.getInt("electricityID") > 0) {
 					// have waterID update
 					ElectricConDAO electricConDAO = new ElectricConDAO();
-					electricConDAO.updateElectricCon(proportionalFactor, electricityUsageRM, electricityUsageM3,
-							fileBytes, rs.getInt("electricityID"));
-					message = "Update successfully";
+					if (fileBytes != null) {
+						electricConDAO.updateElectricCon(proportionalFactor, electricityUsageRM, electricityUsageM3,
+								fileBytes, rs.getInt("electricityID"));
+						message = "Update successfully";
+					} else {
+						electricConDAO.updateElectricConNoProof(proportionalFactor, electricityUsageRM,
+								electricityUsageM3, rs.getInt("electricityID"));
+						message = "Update successfully";
+					}
 
 				} else {
 					// waterID not found insert

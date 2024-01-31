@@ -23,7 +23,7 @@ public class ElectricityValidationController {
 		ModelAndView model = new ModelAndView("electricityValidation");
 		ArrayList<ElectricityValidation> electricityValidationList = new ArrayList<ElectricityValidation>();
 		Connection conn = DBConnect.openConnection();
-		String sql= "SELECT * FROM electricityconsumption WHERE status ='DISAPPROVED';";
+		String sql= "SELECT * FROM electricityconsumption WHERE status ='PENDING';";
 		try(ResultSet rs = conn.createStatement().executeQuery(sql)){
 			while(rs.next()) {
 				ElectricityValidation electricityValidation = new ElectricityValidation();
@@ -49,6 +49,17 @@ public class ElectricityValidationController {
 		
 		ModelAndView model = new ModelAndView("electricityValidationResponse");
 		model.addObject("message", "Approve successfully");
+		return model;
+	}
+	
+	@RequestMapping("/electricityValidationDisapprove")
+	protected ModelAndView electricityValidationDisapprove(@RequestParam("electricityID") int electricityID) throws SQLException {
+		
+		ElectricValidateDAO electricValidateDAO = new ElectricValidateDAO();
+		electricValidateDAO.disapproveElectric(electricityID);
+		
+		ModelAndView model = new ModelAndView("electricityValidationResponse");
+		model.addObject("message", "Disapprove successfully");
 		return model;
 	}
 	

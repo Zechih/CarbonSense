@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import com.model.ElectricityValidation;
+
 public class ElectricConDAO {
 
 	public static Connection openConnection() {
@@ -28,6 +30,33 @@ public class ElectricConDAO {
 		return connection;
 	}
 
+	public ElectricityValidation getElectricConDetails(int electricityID) {
+		ElectricityValidation electricityCon = new ElectricityValidation();
+		try (Connection conn = openConnection()) {
+			String sql = "SELECT * FROM electricityconsumption WHERE electricityID = ?";
+			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+				stmt.setFloat(1, electricityID);
+				ResultSet rs = stmt.executeQuery();
+
+				if (rs.next()) {
+					electricityCon.setElectricityID(electricityID);
+					electricityCon.setElectricityProportionalFactor(rs.getFloat("electricityProportionalFactor"));
+					electricityCon.setElectricUsageValueRM(rs.getFloat("electricUsageValueRM"));
+					electricityCon.setElectricUsageValueM3(rs.getFloat("electricUsageValueM3"));
+					electricityCon.setElectricConsumptionProof(rs.getBytes("electricConsumptionProof"));
+					electricityCon.setStatus(rs.getString("status"));
+					return electricityCon;
+				} else {
+					return electricityCon;
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return electricityCon;
+		}
+	}
+
 	public void updateElectricCon(float proportionalFactor, float electricityUsageRM, float electricityUsageM3,
 			byte[] fileBytes, int electricityID) {
 		try (Connection conn = openConnection()) {
@@ -40,6 +69,24 @@ public class ElectricConDAO {
 				electricityStmt.setFloat(3, electricityUsageM3);
 				electricityStmt.setBytes(4, fileBytes);
 				electricityStmt.setInt(5, electricityID);
+				int affectedRows = electricityStmt.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public void updateElectricConNoProof(float proportionalFactor, float electricityUsageRM, float electricityUsageM3, int electricityID) {
+		try (Connection conn = openConnection()) {
+
+			String updateElectricitySql = "UPDATE electricityconsumption SET electricityProportionalFactor = ?, electricUsageValueRM = ?, electricUsageValueM3 = ?, status = 'DISAPPROVED' WHERE electricityID = ?";
+			try (PreparedStatement electricityStmt = conn.prepareStatement(updateElectricitySql)) {
+
+				electricityStmt.setFloat(1, proportionalFactor);
+				electricityStmt.setFloat(2, electricityUsageRM);
+				electricityStmt.setFloat(3, electricityUsageM3);
+				electricityStmt.setInt(4, electricityID);
 				int affectedRows = electricityStmt.executeUpdate();
 			}
 		} catch (SQLException e) {
