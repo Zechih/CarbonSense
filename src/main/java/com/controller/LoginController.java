@@ -52,15 +52,4 @@ public class LoginController {
 
         return model;
     }
-
-    @RequestMapping("/home")
-    protected ModelAndView getHomePage(HttpSession session) {
-        ModelAndView model = new ModelAndView("dashboard");
-
-                String email = (String) session.getAttribute("email");
-        
-                model.addObject("email", email);
-
-        return model;
-    }
 }

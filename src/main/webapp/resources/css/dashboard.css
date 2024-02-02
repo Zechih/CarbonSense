@@ -58,21 +58,3 @@
     border-radius: 5px;
     cursor: pointer;
 }
-
-.left-column {
-    border: 3px solid #660077;
-    /* Purple border on the right side of the left co0umn */
-    padding: 20px;
-    /* Optional: Add padding for better appearance */
-    width: 50%;
-    margin: 10px;
-}
-
-.right-column {
-    border: 3px solid #1D9300;
-    /* Green border on the left side of the right column */
-    padding: 15px;
-    /* Optional: Add padding for better appearance */
-    width: 41.5%;
-    margin: 10px;
-}

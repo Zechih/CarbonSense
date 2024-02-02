@@ -18,9 +18,9 @@
 
             <style>
                 body {
-                    padding: 130px 0 0 310px;
+                    padding: 130px;
                 }
-        
+
                 .infobar {
                     width: 95%;
                     height: 100%;
@@ -30,6 +30,7 @@
                     font-weight: bold;
                     font-size: 20px;
                 }
+
             </style>
 
         </head>
@@ -42,31 +43,50 @@
 
             <div class="infobar">
                 <div class="grid">
-                    <div class="col1">NAME: ${user.firstName} ${user.lastName}</div>
-                    <div class="nric-number">NRIC NUMBER: ${user.ic}</div>
-                    <div class="col1">RESIDENTIAL AREA: ${user.region}</div>
-                    <div>CONTACT NUMBER: ${user.phoneNumber}</div>
+                    <div class="col1">Name: ${user.firstName} ${user.lastName}</div>
+                    <div class="nric-number">NRIC Number: ${user.ic}</div>
+                    <div class="col1">Residential Region: ${user.region}</div>
+                    <div>Contact Number: ${user.phoneNumber}</div>
                     <div class="col1" style="grid-column: span 2;">Address: ${user.address}</div>
                     <div class="update-container">
-                        <a href="profile.html" class="btn btn-primary">UPDATE</a>
+                        <a href="${pageContext.request.contextPath}/profile" class="btn btn-primary">UPDATE</a>
                     </div>
                 </div>
             </div>
-
+            <br><br>
             <div class="row-below-infobar">
                 <div class="row">
-                    <div class="col-md-6 left-column">
+                    <div class="col-6">
+                        <c:choose>
+                            <c:when test="${user.category == 'A1'}">
+                                <c:set var="categoryImage" value="./resources/images/highrise.png" />
+                                <c:set var="categoryText" value="Category A1<br /><br />Housing (High Rise)" />
+                            </c:when>
+                            <c:when test="${user.category == 'A2'}">
+                                <c:set var="categoryImage" value="./resources/images/landed.png" />
+                                <c:set var="categoryText" value="Category A2<br /><br />Housing (Landed)" />
+                            </c:when>
+                            <c:when test="${user.category == 'A3'}">
+                                <c:set var="categoryImage" value="./resources/images/institution.png" />
+                                <c:set var="categoryText" value="Category A3<br /><br />Institution" />
+                            </c:when>
+                            <c:when test="${user.category == 'A4'}">
+                                <c:set var="categoryImage" value="./resources/images/mbip.png" />
+                                <c:set var="categoryText" value="Category A4<br /><br />MBIP Staff and Divisions" />
+                            </c:when>
+                            <c:otherwise>
+                                <c:set var="categoryText" value="Category Not Found <br/><br/>Please update your profile !"/>
+                            </c:otherwise>
+                        </c:choose>
+        
                         <div style="display: flex; align-items: center; justify-content: center; text-align: center;">
-                            <img style="width: 160px; height: 160px" src="resources/image/highrise.png"
-                                alt="highrise" />
-                            <div
-                                style="color: black; font-size: 32px; font-family: Calibri; font-weight: 700; word-wrap: break-word; margin-left: 15px;">
-                                Category A1<br /><br />Housing (High Rise)
+                            <img style="width: 160px; height: 160px" src="${categoryImage}" alt="category" />
+                            <div style="color: black; font-size: 32px; font-family: Calibri; font-weight: 700; word-wrap: break-word; margin-left: 15px;">
+                                ${categoryText}
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-md-6 right-column">
+                    <div class="col-6">
                         <div style="width: 100%; height: 100%; position: relative">
                             <div
                                 style="position: absolute; color: black; font-size: 32px; font-family: Calibri; font-weight: 700; word-wrap: break-word; top: 0; text-align:center;">

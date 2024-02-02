@@ -81,7 +81,8 @@
 								<button type="button" class="btn btn-secondary"
 									data-bs-dismiss="modal">Close</button>
 								<a href="electricityValidationDelete?electricityID=${electricityValidation.electricityID}"><button type="button" class="btn btn-danger">Delete</button></a>
-								<a href="electricityValidationApprove?electricityID=${electricityValidation.electricityID}"><button type="button" class="btn btn-primary">Approve</button></a>
+								<a href="electricityValidationDisapprove?electricityID=${electricityValidation.electricityID}"><button type="button" class="btn btn-primary">Disapprove</button></a>
+								<a href="electricityValidationApprove?electricityID=${electricityValidation.electricityID}"><button type="button" class="btn btn-success">Approve</button></a>
 							</div>
 						</div>
 					</div>
