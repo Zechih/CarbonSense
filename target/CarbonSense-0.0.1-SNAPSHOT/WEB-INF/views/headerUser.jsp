@@ -69,7 +69,7 @@
 							</a> <a class="nav-link ms-3 my-1" href="./electricityConsumption"
 								style="color: inherit;">
 								<h5>Electricity Consumption</h5>
-							</a> <a class="nav-link ms-3 my-1" href="./recycleactivity.html" style="color: inherit;">
+							</a> <a class="nav-link ms-3 my-1" href="./recycleConsumption" style="color: inherit;">
 								<h5>Recycle Activity</h5>
 							</a>
 						</nav>

@@ -30,6 +30,40 @@
                     font-weight: bold;
                     font-size: 20px;
                 }
+
+                .regionbox {
+                    left: 575px;
+                    top: 380px;
+                    position: absolute;
+                    color: black;
+                    font-family: Arial, Helvetica, sans-serif;
+                    font-weight: 700;
+                    font-size: 30px;
+                    word-wrap: break-word
+                }
+
+                .region {
+                    width: 513px;
+                    height: 55px;
+                    left: 575px;
+                    top: 425px;
+                    position: absolute;
+                    background: #D9D9D9;
+                    border-radius: 33px;
+                    border: 1px black solid
+                }
+
+                .region-text {
+                    position: absolute;
+                    top: 50%;
+                    left: 25%;
+                    transform: translate(-50%, -50%);
+                    color: black;
+                    font-size: 20px;
+                    font-family: Arial, Helvetica, sans-serif;
+                    font-weight: 100;
+                    margin-left: 5px;
+                }
             </style>
 
         </head>
@@ -119,6 +153,14 @@
                                 </div>
                             </c:when>
                         </c:choose>
+                    </div>
+                    <div class="regionbox">
+                        Region
+                    </div>
+                    <div class="region">
+                        <div class="region-text">
+                            ${user.region}
+                        </div>
                     </div>
                 </div>
             </div>

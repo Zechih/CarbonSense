@@ -43,8 +43,8 @@
 				<tr>
 					<th scope="row">${loop.index + 1}</th>
 					<td>${recycleValidation.recycleID}</td>
-					<td>${recycleValidation.AccumulatedKg}</td>
-					<td>${electricityValidation.recycleRM}</td>
+					<td>${recycleValidation.accumulatedKg}</td>
+					<td>${recycleValidation.recycleRM}</td>
 					<td><button type="button" class="btn btn-outline-secondary"
 							data-bs-toggle="modal" data-bs-target="#Modal${recycleValidation.recycleID}">
 							Image
@@ -73,8 +73,8 @@
 							<div class="modal-body">
 								<h5>Image</h5>
 								<img width="500px" src="data:image/*;base64,${Base64.getEncoder().encodeToString(recycleValidation.recycleConsumptionProof)}"/>
-								<h5>Electricity Proportional Factor: ${recycleValidation.AccumulatedKg}</h5>
-								<h5>Electric Usage Value(RM): ${electricityValidation.recycleRM}</h5>
+								<h5>Electricity Proportional Factor: ${recycleValidation.accumulatedKg}</h5>
+								<h5>Electric Usage Value(RM): ${recycleValidation.recycleRM}</h5>
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary"
