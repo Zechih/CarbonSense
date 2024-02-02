@@ -69,11 +69,10 @@
                         </select>
                     </div>
                     <div class="input-wrapper">
-                        <input type="password" name="password" value="password" placeholder="Password" required>
+                        <input type="password" name="password" value="password" required>
                     </div>
                     <div class="input-wrapper">
-                        <input type="password" name="cfmpassword" value="cfmpassword" placeholder="Confirmed Password"
-                            required>
+                        <input type="password" name="cfmpassword" value="cfmpassword" required>
                     </div>
                     <div class="input-wrapper">
                         <div class="radio-group">
@@ -98,6 +97,36 @@
                 enctype="multipart/form-data">
                 <div class="input-wrapper">
                     <textarea id="address" name="address" rows="4" cols="50" placeholder="Address in full"></textarea>
+                </div>
+                <div class="input-wrapper">
+                    <div class="select"></div>
+                    <select name="region" id="region">
+                        <option value="Region">Region</option>
+                        <option value="Pulai Indah">Pulai Indah</option>
+                        <option value="Kangkar Pulai">Kangkar Pulai</option>
+                        <option value="Pulai Utama">Pulai Utama</option>
+                        <option value="Sri Pulai">Sri Pulai</option>
+                        <option value="Taman Universiti">Taman Universiti</option>
+                        <option value="Mutiara Rini">Mutiara Rini</option>
+                        <option value="Lima Kedai">Lima Kedai</option>
+                        <option value="Nusa Bayu">Nusa Bayu</option>
+                        <option value="Gelang Patah">Gelang Patah</option>
+                        <option value="Leisure Farm">Leisure Farm</option>
+                        <option value="Tanjung Kupang">Tanjung Kupang</option>
+                        <option value="Medini Iskandar">Medini Iskandar</option>
+                        <option value="Kota Iskandar">Kota Iskandar</option>
+                        <option value="Bukit Horizon">Bukit Horizon</option>
+                        <option value="Impian Emas">Impian Emas</option>
+                        <option value="Sri Skudai">Sri Skudai</option>
+                        <option value="Skudai">Skudai</option>
+                        <option value="Skudai Baru">Skudai Baru</option>
+                        <option value="Selese Jaya">Selese Jaya</option>
+                        <option value="Tun Aminah">Tun Aminah</option>
+                        <option value="Nusa Bestari">Nusa Bestari</option>
+                        <option value="Bukit Indah">Bukit Indah</option>
+                        <option value="Sutera Utama">Sutera Utama</option>
+                        <option value="Perling">Perling</option>                
+                    </select>
                 </div>
                 <div class="input-wrapper">
                     <div class="select"></div>
