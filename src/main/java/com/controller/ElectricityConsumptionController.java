@@ -7,6 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +24,9 @@ import com.model.ElectricityValidation;
 @Controller
 public class ElectricityConsumptionController {
 	@RequestMapping("/electricityConsumption")
-	protected ModelAndView getElectricityConsumptionPage(@RequestParam("userID") int userID) throws SQLException {
+	protected ModelAndView getElectricityConsumptionPage(HttpServletRequest request) throws SQLException {
+		HttpSession session = request.getSession();
+		int userID = (Integer) session.getAttribute("userID");
 		try (Connection conn = DBConnect.openConnection()) {
 			LocalDate currentDate = LocalDate.now();
 			String sql = "SELECT * FROM application WHERE userID = ? AND DATE_FORMAT(`date`, '%Y') = ? AND DATE_FORMAT(`date`, '%m') = ?";
@@ -45,7 +50,7 @@ public class ElectricityConsumptionController {
 						} else {
 							// Redirect to submission form
 							ModelAndView model = new ModelAndView(new RedirectView("electricityConsumptionForm"));
-							model.setViewName("redirect:/electricityConsumptionForm?userID=" + userID);
+							model.setViewName("redirect:/electricityConsumptionForm");
 							return model;
 						}
 					}
@@ -58,19 +63,22 @@ public class ElectricityConsumptionController {
 		}
 
 		ModelAndView model = new ModelAndView(new RedirectView("electricityConsumptionForm"));
-		model.setViewName("redirect:/electricityConsumptionForm?userID=" + userID);
+		model.setViewName("redirect:/electricityConsumptionForm");
 		return model;
 	}
 
 	@RequestMapping("/electricityConsumptionForm")
-	protected ModelAndView getElectricityConsumptionFormPage(@RequestParam("userID") int userID) {
+	protected ModelAndView getElectricityConsumptionFormPage(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("electricityConsumptionForm");
-		model.addObject("userID", userID);
+		HttpSession session = request.getSession();
+		model.addObject("userID", (Integer) session.getAttribute("userID"));
 		return model;
 	}
 
 	@RequestMapping("/electricityConsumptionEdit")
-	protected ModelAndView getElectricityConsumptionEditPage(@RequestParam("userID") int userID) {
+	protected ModelAndView getElectricityConsumptionEditPage(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		int userID = (Integer) session.getAttribute("userID");
 		try (Connection conn = DBConnect.openConnection()) {
 			LocalDate currentDate = LocalDate.now();
 			String sql = "SELECT * FROM application WHERE userID = ? AND DATE_FORMAT(`date`, '%Y') = ? AND DATE_FORMAT(`date`, '%m') = ?";
@@ -94,7 +102,7 @@ public class ElectricityConsumptionController {
 						} else {
 							// Redirect to submission form
 							ModelAndView model = new ModelAndView(new RedirectView("electricityConsumptionForm"));
-							model.setViewName("redirect:/electricityConsumptionForm?userID=" + userID);
+							model.setViewName("redirect:/electricityConsumptionForm");
 							return model;
 						}
 					}
@@ -107,17 +115,19 @@ public class ElectricityConsumptionController {
 		}
 
 		ModelAndView model = new ModelAndView(new RedirectView("electricityConsumptionForm"));
-		model.setViewName("redirect:/electricityConsumptionForm?userID=" + userID);
+		model.setViewName("redirect:/electricityConsumptionForm");
 		return model;
 	}
 
 	@RequestMapping("/electricitySubmit")
-	protected ModelAndView getElectricitySubmitPage(@RequestParam("userID") int userID,
+	protected ModelAndView getElectricitySubmitPage(HttpServletRequest request,
 			@RequestParam("proportionalFactor") float proportionalFactor,
 			@RequestParam("electricityUsageRM") float electricityUsageRM,
 			@RequestParam("electricityUsageM3") float electricityUsageM3, @RequestParam MultipartFile billImage)
 			throws SQLException, IOException {
-
+		
+		HttpSession session = request.getSession();
+		int userID = (Integer) session.getAttribute("userID");
 		Connection conn = DBConnect.openConnection();
 		LocalDate currentDate = LocalDate.now();
 		String ApplicationSql = "SELECT * FROM application WHERE userID = ? AND DATE_FORMAT(`date`, '%Y') = ? AND DATE_FORMAT(`date`, '%m') = ?";

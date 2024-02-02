@@ -34,7 +34,6 @@
 </head>
 
 <body>
-	<!-- <div id='header'></div> -->
 	<jsp:include page="headerAdmin.jsp" />
 	<div class="title">
 		<h1>REPORT</h1>

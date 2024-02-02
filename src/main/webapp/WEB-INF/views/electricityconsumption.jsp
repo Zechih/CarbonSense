@@ -106,7 +106,7 @@
 					</c:choose>
 				</div>
 				<div class="submit-btn">
-					<a href="electricityConsumptionEdit?userID=${userID}" ><button type="button" class="btn btn-primary">Edit</button></a>
+					<a href="electricityConsumptionEdit" ><button type="button" class="btn btn-primary">Edit</button></a>
 				</div>
 			</div>
 		</div>
