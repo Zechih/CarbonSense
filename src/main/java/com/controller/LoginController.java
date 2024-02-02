@@ -41,6 +41,7 @@ public class LoginController {
 
 					session.setAttribute("email", email);
 					session.setAttribute("userID", rs.getInt("userID"));
+					session.setAttribute("name", rs.getString("firstName") +" "+ rs.getString("lastName"));
 					session.setAttribute("role", rs.getString("role"));
 					session.setAttribute("status", rs.getString("status"));
 
