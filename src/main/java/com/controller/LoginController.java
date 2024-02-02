@@ -44,10 +44,6 @@ public class LoginController {
 					session.setAttribute("role", rs.getString("role"));
 					session.setAttribute("status", rs.getString("status"));
 
-<<<<<<< HEAD
-        return model;
-    }
-=======
 					if ("USER".equals(rs.getString("role"))) {
 						model = new ModelAndView("redirect:/home");
 
@@ -81,5 +77,5 @@ public class LoginController {
 
 		return model;
 	}
->>>>>>> c1c4dac7f6167802dc5d53105a875bffccd4af0d
+
 }
