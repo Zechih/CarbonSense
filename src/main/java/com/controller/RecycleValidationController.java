@@ -22,14 +22,14 @@ public class RecycleValidationController {
 		ModelAndView model = new ModelAndView("recycleValidation");
 		ArrayList<RecycleValidation> recycleValidationList = new ArrayList<RecycleValidation>();
 		Connection conn = DBConnect.openConnection();
-		String sql= "SELECT * FROM recycleconsumption WHERE status ='DISAPPROVED';";
+		String sql= "SELECT * FROM recycle WHERE status ='PENDING';";
 		try(ResultSet rs = conn.createStatement().executeQuery(sql)){
 			while(rs.next()) {
 				RecycleValidation recycleValidation = new RecycleValidation();
 				recycleValidation.setRecycleID(rs.getInt("recycleID"));
-				recycleValidation.setAccumulatedKg(rs.getFloat("AccumulatedKg"));
+				recycleValidation.setAccumulatedKg(rs.getFloat("recycleKG"));
 				recycleValidation.setRecycleRM(rs.getFloat("recycleRM"));
-				recycleValidation.setRecycleConsumptionProof(rs.getBytes("recycleConsumptionProof"));
+				recycleValidation.setRecycleConsumptionProof(rs.getBytes("recycleProof"));
 				recycleValidation.setStatus(rs.getString("status"));
 				recycleValidationList.add(recycleValidation);
 			}
@@ -43,7 +43,7 @@ public class RecycleValidationController {
 	protected ModelAndView recycleValidationApprove(@RequestParam("recycleID") int recycleID) throws SQLException {
 		
 		Connection conn = DBConnect.openConnection();
-		String approveSql = "UPDATE recycleconsumption SET status = 'APPROVED' WHERE recycleID = ?;";
+		String approveSql = "UPDATE recycle SET status = 'APPROVED' WHERE recycleID = ?;";
 		PreparedStatement stmt = conn.prepareStatement(approveSql);
 		stmt.setInt(1, recycleID);
 		int rs = stmt.executeUpdate();
@@ -62,7 +62,7 @@ public class RecycleValidationController {
 		updateStmt.setInt(1, recycleID);
 		int updateRs = updateStmt.executeUpdate();
 		
-		String deleteSql = "DELETE FROM recycleconsumption WHERE recycleID = ?;";
+		String deleteSql = "DELETE FROM recycle WHERE recycleID = ?;";
 		PreparedStatement stmt = conn.prepareStatement(deleteSql);
 		stmt.setInt(1, recycleID);
 		int rs = stmt.executeUpdate();

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +14,46 @@
 </head>
 
 <body>
+	<script>
+		function alertNotAdmin() {
+			alert("Permission denied. You cannot access this page.");
+			window.location.href = '${pageContext.request.contextPath}/home';
+		}
+
+		function alertNotLogin() {
+			alert("Permission denied. You cannot access this page. Please login.");
+			window.location.href = '${pageContext.request.contextPath}/login';
+		}
+
+		function alertNotApproved() {
+			window
+					.alert("Your status is not approved. You cannot access this page.");
+			window.location.href = '${pageContext.request.contextPath}/login';
+		}
+	</script>
+	<c:choose>
+		<c:when test="${sessionScope.role == 'ADMIN'}">
+			<c:choose>
+				<c:when test="${sessionScope.status == 'APPROVED'}">
+				</c:when>
+				<c:otherwise>
+					<script>
+						alertNotApproved();
+					</script>
+				</c:otherwise>
+			</c:choose>
+		</c:when>
+		<c:when test="${sessionScope.role == 'USER'}">
+			<script>
+				alertNotAdmin();
+			</script>
+		</c:when>
+		<c:otherwise>
+			<script>
+				alertNotLogin();
+			</script>
+		</c:otherwise>
+	</c:choose>
 	<nav class="navbar bg-body-tertiary fixedpos">
 		<div class="nav-container">
 			<img
@@ -70,16 +111,14 @@
 							</svg>
 							<h4>Validate Information</h4> </a>
 						<nav class="nav nav-pills flex-column">
-							<a class="nav-link ms-3 my-1" href=""
-								style="color: inherit;">
+							<a class="nav-link ms-3 my-1" href="" style="color: inherit;">
 								<h5>User Validation</h5>
-							</a> <a class="nav-link ms-3 my-1" href=""
-								style="color: inherit;">
+							</a> <a class="nav-link ms-3 my-1" href="" style="color: inherit;">
 								<h5>Water Consumption Validation</h5>
 							</a> <a class="nav-link ms-3 my-1" href="electricityValidation"
 								style="color: inherit;">
 								<h5>Electricity Consumption Validation</h5>
-							</a> <a class="nav-link ms-3 my-1" href=""
+							</a> <a class="nav-link ms-3 my-1" href="recycleValidation"
 								style="color: inherit;">
 								<h5>Recycle Activity Validation</h5>
 							</a>

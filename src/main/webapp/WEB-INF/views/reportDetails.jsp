@@ -66,9 +66,13 @@
 	}
 </script>
 </head>
-
+<style>
+table {
+	table-layout: fixed;
+	width: 300px;
+}
+</style>
 <body>
-	<!-- <div id='header'></div> -->
 	<jsp:include page="headerAdmin.jsp" />
 	<div class="title">
 		<h1>REPORT</h1>
@@ -204,7 +208,8 @@
 				</h3>
 				<div style="display: flex;">
 					<div id="donutchart"></div>
-					<div class="card mb-3" style="width: 21rem; height: 9rem; margin-top: 2rem;">
+					<div class="card mb-3"
+						style="width: 21rem; height: 9rem; margin-top: 2rem;">
 						<div class="card-body">
 							<h6 class="card-title">
 								Total Carbon Emission (kgCO2):
@@ -238,7 +243,7 @@
 						<table class="table" id="environmentTable">
 							<thead>
 								<tr>
-									<th>#</th>
+									<th style="width: 50px;">#</th>
 									<th onclick="sortTable(0)">Name</th>
 									<th onclick="sortTable(1)">Water Consumption (liters)</th>
 									<th onclick="sortTable(2)">Electricity Consumption (kWh)</th>
@@ -268,7 +273,7 @@
 							</tbody>
 						</table>
 						<c:if test="${inCategory == false}">
-							<c:out value="No Submission"></c:out>
+							<c:out value="No Submission"></c:out><br><br>
 						</c:if>
 					</c:forEach>
 				</div>

@@ -6,7 +6,7 @@ public class RecycleValidation implements Serializable{
     private static final long serialVersionUID = 1L;
 	
 	private int recycleID;
-	private float AccumulatedKg;
+	private float accumulatedKg;
 	private float recycleRM;
 	private byte[] recycleConsumptionProof;
 	private String status;
@@ -18,12 +18,12 @@ public class RecycleValidation implements Serializable{
 		this.recycleID = recycleID;
 	}
 	public float getAccumulatedKg() {
-		return AccumulatedKg;
+		return accumulatedKg;
 	}
 	public void setAccumulatedKg(float AccumulatedKg) {
-		this.AccumulatedKg = AccumulatedKg;
+		this.accumulatedKg = AccumulatedKg;
 	}
-	public float recycleRM() {
+	public float getRecycleRM() {
 		return recycleRM;
 	}
 	public void setRecycleRM(float recycleRM) {

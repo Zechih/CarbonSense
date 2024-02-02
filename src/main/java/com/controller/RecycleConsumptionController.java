@@ -7,6 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,22 +19,23 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dbUtil.DBConnect;
 
-
 @Controller()
 public class RecycleConsumptionController {
-    @RequestMapping("/recycleConsumption")
-    public ModelAndView getRecycleConsumptionPage(@RequestParam String param) {
-        ModelAndView mav = new ModelAndView("recycleConsumption");
+	@RequestMapping("/recycleConsumption")
+	public ModelAndView getRecycleConsumptionPage(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		int userID = (Integer) session.getAttribute("userID");
+		ModelAndView mav = new ModelAndView("recycleConsumption");
 		return mav;
-    }
+	}
 
-    	@RequestMapping("/recycleSubmit")
-	protected ModelAndView getElectricitySubmitPage(@RequestParam("userID") int userID,
-			@RequestParam("AccumulatedKg") float AccumulatedKg,
-			@RequestParam("recycleRM") float recycleRM,
-			@RequestParam MultipartFile billImage)
-			throws SQLException, IOException {
+	@RequestMapping("/recycleSubmit")
+	protected ModelAndView getElectricitySubmitPage(HttpServletRequest request,
+			@RequestParam("AccumulatedKg") float AccumulatedKg, @RequestParam("recycleRM") float recycleRM,
+			@RequestParam MultipartFile billImage) throws SQLException, IOException {
 
+		HttpSession session = request.getSession();
+		int userID = (Integer) session.getAttribute("userID");
 		Connection conn = DBConnect.openConnection();
 		LocalDate currentDate = LocalDate.now();
 		String ApplicationSql = "SELECT * FROM application WHERE userID = ? AND DATE_FORMAT(`date`, '%Y') = ? AND DATE_FORMAT(`date`, '%m') = ?";
@@ -39,21 +43,21 @@ public class RecycleConsumptionController {
 		stmt.setInt(1, userID);
 		stmt.setInt(2, currentDate.getYear());
 		stmt.setInt(3, currentDate.getMonthValue());
-		
+
 		byte[] fileBytes = null;
 		if (!billImage.isEmpty()) {
 			fileBytes = billImage.getBytes();
 		}
-		
+
 		String message = null;
-		
+
 		try (ResultSet rs = stmt.executeQuery()) {
-			
+
 			if (rs.next()) {
-				
+
 				if (rs.getInt("recycleID") > 0) {
-					
-					String updateRecycleSql = "UPDATE recycleconsumption SET AccumulatedKg = ?, recycleRM = ?, recycleConsumptionProof = ?, status = 'DISAPPROVED' WHERE recycleID = ?;";
+
+					String updateRecycleSql = "UPDATE recycle SET recycleKG = ?, recycleRM = ?, recycleProof = ?, status = 'PENDING' WHERE recycleID = ?;";
 					PreparedStatement recycleStmt = conn.prepareStatement(updateRecycleSql);
 					recycleStmt.setFloat(1, AccumulatedKg);
 					recycleStmt.setFloat(2, recycleRM);
@@ -64,10 +68,10 @@ public class RecycleConsumptionController {
 
 				} else {
 					// waterID not found insert
-					String insertRecycleSql = "INSERT INTO recycleconsumption (AccumulatedKg, recycleRM, recycleConsumptionProof, status) VALUES (?, ?, ?, 'DISAPPROVED');";
+					String insertRecycleSql = "INSERT INTO recycle (recycleKG, recycleRM, recycleProof, status) VALUES (?, ?, ?, 'PENDING');";
 					PreparedStatement recycleStmt = conn.prepareStatement(insertRecycleSql,
 							PreparedStatement.RETURN_GENERATED_KEYS);
-                            recycleStmt.setFloat(1, AccumulatedKg);
+					recycleStmt.setFloat(1, AccumulatedKg);
 					recycleStmt.setFloat(2, recycleRM);
 					recycleStmt.setBytes(3, fileBytes);
 					int affectedRows = recycleStmt.executeUpdate();
@@ -91,7 +95,7 @@ public class RecycleConsumptionController {
 				}
 
 			} else {
-				String insertRecycleSql = "INSERT INTO recycleconsumption (AccumulatedKg, recycleRM, recycleConsumptionProof, status) VALUES (?, ?, ?, 'DISAPPROVED');";
+				String insertRecycleSql = "INSERT INTO recycle (recycleKg, recycleRM, recycleProof, status) VALUES (?, ?, ?, 'PENDING');";
 				PreparedStatement recycleStmt = conn.prepareStatement(insertRecycleSql,
 						PreparedStatement.RETURN_GENERATED_KEYS);
 				recycleStmt.setFloat(1, AccumulatedKg);
@@ -121,10 +125,10 @@ public class RecycleConsumptionController {
 			}
 
 		}
-		
+
 		ModelAndView model = new ModelAndView("recycleActivityResponse");
 		model.addObject("message", message);
 		return model;
 	}
-    
+
 }
