@@ -10,7 +10,7 @@
 	rel="stylesheet"
 	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
 	crossorigin="anonymous">
-<title>Electricity Consumption</title>
+<title>Water Consumption</title>
 <link rel="stylesheet" href="./resources/css/consumption.css">
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -21,7 +21,7 @@
 <body>
 	<jsp:include page="headerUser.jsp" />
 	<div class="title">
-		<h1>ELECTRICITY COMSUMPTION SUBMISSION</h1>
+		<h1>WATER COMSUMPTION SUBMISSION</h1>
 	</div>
 	<div class="calendar-image">
 		<div class="calendar-container">
@@ -39,11 +39,11 @@
 		</div>
 		<div class="semak-Image">
 			<img
-				src="https://p.sda1.dev/14/5112b1c0a8e3cd002b85d059ff45ed2c/image.png"
+				src="https://p.sda1.dev/14/0f48b9324150cf8c8227bd0627f63059/image.png"
 				alt="semak bill" width="400" height="270">
 		</div>
 	</div>
-	<form action="electricitySubmit" method="post"
+	<form action="waterSubmit" method="post"
 		enctype="multipart/form-data">
 		<div class="form-container">
 			<div class="form-input-value mb-3">
@@ -56,21 +56,21 @@
 					<label for="proportionalFactor" class="form-label">Proportional
 						Factor</label> <input type="text" class="form-control"
 						id="proportionalFactor" name="proportionalFactor"
-						value="${electricityCon.electricityProportionalFactor}" required
+						value="${waterCon.waterProportionalFactor}" required
 						disabled>
 				</div>
 				<div>
 					<label for="waterUsageRM" class="form-label">The current
-						electric usage value (in RM)</label> <input type="text"
-						class="form-control" id="electricityUsageRM"
-						name="electricityUsageRM"
-						value="${electricityCon.electricUsageValueRM}" required disabled>
+						water usage value (in RM)</label> <input type="text"
+						class="form-control" id="waterUsageRM"
+						name="waterUsageRM"
+						value="${waterCon.waterUsageValueRM}" required disabled>
 				</div>
 				<div>
 					<label for="waterUsageM3" class="form-label">The current
-						electric usage value (kWh)</label> <input type="text" class="form-control"
-						id="electricityUsageM3" name="electricityUsageM3"
-						value="${electricityCon.electricUsageValueM3}" required disabled>
+						water usage value (m3)</label> <input type="text" class="form-control"
+						id="waterM3" name="waterUsageM3"
+						value="${waterCon.waterUsageValueM3}" required disabled>
 				</div>
 			</div>
 			<div class="form-upload">
@@ -91,22 +91,22 @@
 				</div>
 				<div>
 					<c:choose>
-						<c:when test="${electricityCon.status == 'APPROVED'}">
+						<c:when test="${waterCon.status == 'APPROVED'}">
 							<br><h5>Status: <span class="badge text-bg-success">Approved</span></h5>
 						</c:when>
-						<c:when test="${electricityCon.status == 'PENDING'}">
+						<c:when test="${waterCon.status == 'PENDING'}">
 							<br><h5>Status: <span class="badge text-bg-info">Pending</span></h5>
 						</c:when>
-						<c:when test="${electricityCon.status == 'DISAPPROVED'}">
+						<c:when test="${waterCon.status == 'DISAPPROVED'}">
 							<br><h5>Status: <span class="badge text-bg-danger">Disapproved</span></h5>
 						</c:when>
 						<c:otherwise>
-							<br><h5>Error1</h5>
+							<br><h5>Error</h5>
 						</c:otherwise>
 					</c:choose>
 				</div>
 				<div class="submit-btn">
-					<a href="electricityConsumptionEdit" ><button type="button" class="btn btn-primary">Edit</button></a>
+					<a href="waterConsumptionEdit" ><button type="button" class="btn btn-primary">Edit</button></a>
 				</div>
 			</div>
 		</div>
@@ -124,7 +124,7 @@
 				</div>
 				<div class="modal-body">
 					<img width="500px"
-						src="data:image/*;base64,${Base64.getEncoder().encodeToString(electricityCon.electricConsumptionProof)}" />
+						src="data:image/*;base64,${Base64.getEncoder().encodeToString(waterCon.waterConsumptionProof)}" />
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"

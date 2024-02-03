@@ -43,7 +43,7 @@ public class ElectricityConsumptionController {
 							ElectricConDAO electricConDAO = new ElectricConDAO();
 							ElectricityValidation electricityCon = electricConDAO
 									.getElectricConDetails(rs.getInt("electricityID"));
-							ModelAndView model = new ModelAndView("electricityConsumption");
+							ModelAndView model = new ModelAndView("electricityconsumption");
 							model.addObject("userID", userID);
 							model.addObject("electricityCon", electricityCon);
 							return model;
