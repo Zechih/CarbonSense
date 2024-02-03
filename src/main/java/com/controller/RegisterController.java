@@ -49,7 +49,7 @@ public class RegisterController {
             registerStmt.setString(7, user.getOccupation());
             registerStmt.setString(8, user.getAddress());
             registerStmt.setString(9, user.getCategory());
-            registerStmt.setString(10, user.getAddressProof());
+            registerStmt.setBytes(10, user.getAddressProof());
             registerStmt.setString(11, user.getRegion());
             registerStmt.setString(12, user.getPassword());
 

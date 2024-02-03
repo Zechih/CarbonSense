@@ -12,7 +12,7 @@ public class User {
     private String occupation;
     private String address;
     private String category;
-    private String addressProof;
+    private byte[] addressProof;
     private String region;
     private String role;
     private String status;
@@ -25,7 +25,7 @@ public class User {
 
     public User(int userId, String email, String ic, String firstName, String lastName,
                 String gender, String phoneNumber, String occupation, String address,
-                String category, String addressProof, String region, String role, String status) {
+                String category, byte[] addressProof, String region, String role, String status) {
         this.userId = userId;
         this.email = email;
         this.ic = ic;
@@ -124,11 +124,11 @@ public class User {
         this.category = category;
     }
 
-    public String getAddressProof() {
+    public byte[] getAddressProof() {
         return addressProof;
     }
 
-    public void setAddressProof(String addressProof) {
+    public void setAddressProof(byte[] addressProof) {
         this.addressProof = addressProof;
     }
 

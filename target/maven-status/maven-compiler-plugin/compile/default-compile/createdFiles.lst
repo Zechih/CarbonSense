@@ -1,5 +1,7 @@
+com\dbUtil\UserValidateDAO.class
 com\controller\RecycleConsumptionController.class
 com\controller\RecycleValidationController.class
+com\controller\UserValidationController.class
 com\model\RecycleValidation.class
 com\dbUtil\AdminDashboardDAO.class
 com\controller\AdminDashboardController.class

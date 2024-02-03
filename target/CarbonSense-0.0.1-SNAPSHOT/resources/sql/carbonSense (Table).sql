@@ -13,7 +13,7 @@ CREATE TABLE `users` (
   `AddressProof` LONGBLOB DEFAULT NULL,
   `Region` varchar(255) DEFAULT NULL,
   `Role` varchar(20) DEFAULT 'USER',
-  `Status` varchar(20) DEFAULT 'DISAPPROVED'
+  `Status` varchar(20) DEFAULT 'PENDING'
 );
 
 CREATE TABLE `waterConsumption` (

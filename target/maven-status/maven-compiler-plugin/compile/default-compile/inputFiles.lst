@@ -1,4 +1,5 @@
 d:\CarbonSense\src\main\java\com\controller\ReportController.java
+d:\CarbonSense\src\main\java\com\controller\UserValidationController.java
 d:\CarbonSense\src\main\java\com\controller\ProfileController.java
 d:\CarbonSense\src\main\java\com\controller\LoginController.java
 d:\CarbonSense\src\main\java\com\dbUtil\DBConnect.java
@@ -19,3 +20,4 @@ d:\CarbonSense\src\main\java\com\controller\ElectricityConsumptionController.jav
 d:\CarbonSense\src\main\java\com\controller\RegisterController.java
 d:\CarbonSense\src\main\java\com\model\RecycleValidation.java
 d:\CarbonSense\src\main\java\com\model\User.java
+d:\CarbonSense\src\main\java\com\dbUtil\UserValidateDAO.java

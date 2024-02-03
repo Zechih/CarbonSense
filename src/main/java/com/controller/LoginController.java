@@ -52,15 +52,15 @@ public class LoginController {
 						model = new ModelAndView("redirect:/dashboardAdmin");
 						
 					} else {
-						model = new ModelAndView("redirect:/login");
-						model.addObject("error", "Invalid credentials. Please try again.");
+						model = new ModelAndView("loginfailure");
+						model.addObject("message", "Invalid credentials. Please try again.");
 						
 					}
 
 				} else {
 					// Invalid credentials, redirect back to login page with an error message
-					model = new ModelAndView("redirect:/login");
-					model.addObject("error", "Invalid credentials. Please try again.");
+					model = new ModelAndView("loginfailure");
+					model.addObject("message", "Invalid credentials. Please try again.");
 				}
 			}
 		}

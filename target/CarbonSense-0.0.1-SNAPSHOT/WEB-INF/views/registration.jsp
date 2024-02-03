@@ -141,10 +141,9 @@
                 <br>
                 <div class="proof-document-outer">
                     <div class="proof-document-inner">
-                        <label for="proof-document" id="proof-document-box">
-                            <div id="proof-document-text">You can drop or drag your files here</div>
-                        </label>
-                        <input type="file" name="proofDocument" id="proof-document" accept=".pdf">
+                        <label for="addressProof" class="form-label">Upload your address proof</label> 
+                        <input type="file"
+                            class="form-control" id="addressProof" name="addressProof" required>
                     </div>
                 </div>
 
