@@ -31,7 +31,7 @@
 				<i class="bi bi-caret-down-fill" style="margin: 0 10px;"></i>
 			</div>
 			<ul class="accountDropdown">
-				<li><a href="login.html"><i class="bi bi-box-arrow-left" style='margin: 0 10px 0 0;'></i>Log Out</a></li>
+				<li><a href="login"><i class="bi bi-box-arrow-left" style='margin: 0 10px 0 0;'></i>Log Out</a></li>
 			</ul>
 		</div>
 	</nav>
@@ -45,7 +45,7 @@
 			</div>
 			<div class="offcanvas-body">
 				<ul class="nav-menu" style="list-style: none;">
-					<li class="nav-item"><a href="./dashboard.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="40"
+					<li class="nav-item"><a href="./home" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="40"
 								height="40" fill="currentColor" class="bi bi-grid-1x2-fill" viewBox="0 0 16 16">
 								<path
 									d="M0 1a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm9 0a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1zm0 9a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1z" />
@@ -65,7 +65,7 @@
 							<h4>Submit</h4>
 						</a>
 						<nav class="nav nav-pills flex-column">
-							<a class="nav-link ms-3 my-1" href="./waterconsumption.html" style="color: inherit;">
+							<a class="nav-link ms-3 my-1" href="./waterConsumption" style="color: inherit;">
 								<h5>Water Consumption</h5>
 							</a> <a class="nav-link ms-3 my-1" href="./electricityConsumption"
 								style="color: inherit;">
@@ -75,7 +75,7 @@
 							</a>
 						</nav>
 					</li>
-					<li class="nav-item"><a href="profile.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="40"
+					<li class="nav-item"><a href="./profile" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="40"
 								height="40" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
 								<path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
 								<path fill-rule="evenodd"

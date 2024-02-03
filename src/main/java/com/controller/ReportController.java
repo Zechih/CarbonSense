@@ -1,9 +1,11 @@
 package com.controller;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,13 +27,19 @@ public class ReportController {
 	protected ModelAndView getReportPage() throws SQLException {
 		ModelAndView model = new ModelAndView("report");
 		Connection conn = DBConnect.openConnection();
-		String sql = "SELECT MIN(DATE_FORMAT(`date`, '%Y')) AS smallest_year, MIN(DATE_FORMAT(`date`, '%m')) AS smallest_month FROM application;";
+		String sql = "SELECT MIN(date) AS smallest_date FROM application;";
 		ResultSet rs = conn.createStatement().executeQuery(sql);
 
 		if (rs.next()) {
-			model.addObject("smallest_year", rs.getInt("smallest_year"));
-			model.addObject("smallest_month", rs.getInt("smallest_month"));
-			conn.close();
+			Date smallestDate = rs.getDate("smallest_date");
+
+            LocalDate localDate = smallestDate.toLocalDate();
+
+            int smallestYear = localDate.getYear();
+            int smallestMonth = localDate.getMonthValue();
+
+            model.addObject("smallest_year", smallestYear);
+            model.addObject("smallest_month", smallestMonth);
 		}
 		return model;
 	}
