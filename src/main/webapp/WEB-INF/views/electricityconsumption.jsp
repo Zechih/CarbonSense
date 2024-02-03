@@ -101,7 +101,7 @@
 							<br><h5>Status: <span class="badge text-bg-danger">Disapproved</span></h5>
 						</c:when>
 						<c:otherwise>
-							<br><h5>Error1</h5>
+							<br><h5>Error</h5>
 						</c:otherwise>
 					</c:choose>
 				</div>
