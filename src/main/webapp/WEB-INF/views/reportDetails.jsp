@@ -78,7 +78,7 @@ table {
 		<h1>REPORT</h1>
 	</div>
 	<%
-	String[] categorys = {"Housing (High Rise)", "Housing (Landed)", "Institution", "MBIP staff and divisions"};
+	String[] categorys = {"A1", "A2", "A3", "A4"};
 	pageContext.setAttribute("category", categorys);
 	String[] regions = {"Pulai Indah", "Kangkar Pulai", "Pulai Utama", "Sri Pulai", "Taman Universiti", "Mutiara Rini",
 			"Lima Kedai", "Nusa Bayu", "Gelang Patah", "Leisure Farm", "Tanjung Kupang", "Medini Iskandar", "Kota Iskandar",
@@ -238,7 +238,23 @@ table {
 				<div>
 					<c:forEach items="${category}" var="category" varStatus="loop">
 						<h4>
-							<c:out value="${category}"></c:out>
+							<c:choose>
+								<c:when test="${category == 'A1'}">
+									<c:out value="A1: Housing (High Rise)"></c:out>
+								</c:when>
+								<c:when test="${category == 'A2'}">
+									<c:out value="A2: Housing (Landed)"></c:out>
+								</c:when>
+								<c:when test="${category == 'A3'}">
+									<c:out value="A3: Institution"></c:out>
+								</c:when>
+								<c:when test="${category == 'A4'}">
+									<c:out value="A3: Institution"></c:out>
+								</c:when>
+								<c:otherwise>
+									<c:out value="Error"></c:out>
+								</c:otherwise>
+							</c:choose>
 						</h4>
 						<table class="table" id="environmentTable">
 							<thead>
@@ -273,7 +289,9 @@ table {
 							</tbody>
 						</table>
 						<c:if test="${inCategory == false}">
-							<c:out value="No Submission"></c:out><br><br>
+							<c:out value="No Submission"></c:out>
+							<br>
+							<br>
 						</c:if>
 					</c:forEach>
 				</div>
