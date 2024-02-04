@@ -62,7 +62,9 @@
 		</div>
 		<div class="account">
 			<div class="accountInfo">
-				<p><c:out value="${sessionScope.name}"></c:out></p>
+				<p>
+					<c:out value="${sessionScope.name}"></c:out>
+				</p>
 				<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
 					fill="currentColor" class="bi bi-person-circle"
 					style="margin: 0 10px;" viewBox="0 0 16 16">
@@ -73,7 +75,7 @@
 				<i class="bi bi-caret-down-fill" style="margin: 0 10px;"></i>
 			</div>
 			<ul class="accountDropdown">
-				<li><a href="login.html"><i class="bi bi-box-arrow-left"
+				<li><a href="login"><i class="bi bi-box-arrow-left"
 						style='margin: 0 10px 0 0;'></i>Log Out</a></li>
 			</ul>
 		</div>
@@ -99,7 +101,7 @@
 							</svg>
 							<h4>Dashboard</h4> </a></li>
 					<li class="nav-item"><a
-						href="${pageContext.request.contextPath}/validation.html"
+						href="${pageContext.request.contextPath}/userValidation"
 						class="nav-link"><svg xmlns="http://www.w3.org/2000/svg"
 								width="50" height="50" fill="currentColor"
 								class="bi bi-check-circle" viewBox="0 0 16 16"
@@ -111,9 +113,11 @@
 							</svg>
 							<h4>Validate Information</h4> </a>
 						<nav class="nav nav-pills flex-column">
-							<a class="nav-link ms-3 my-1" href="" style="color: inherit;">
+							<a class="nav-link ms-3 my-1" href="userValidation"
+								style="color: inherit;">
 								<h5>User Validation</h5>
-							</a> <a class="nav-link ms-3 my-1" href="" style="color: inherit;">
+							</a> <a class="nav-link ms-3 my-1" href="waterValidation"
+								style="color: inherit;">
 								<h5>Water Consumption Validation</h5>
 							</a> <a class="nav-link ms-3 my-1" href="electricityValidation"
 								style="color: inherit;">

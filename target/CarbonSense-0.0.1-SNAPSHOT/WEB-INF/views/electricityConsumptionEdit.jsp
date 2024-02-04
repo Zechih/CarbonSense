@@ -111,7 +111,7 @@
 				</div>
 				<input type="hidden" id="userID" name="userID" value="${userID }">
 				<div class="submit-btn">
-					<button type="button" class="btn btn-secondary">Cancel</button>
+					<a href="electricityConsumption"><button type="button" class="btn btn-secondary">Cancel</button></a>
 					<input type="submit" class="btn btn-success" value="Submit">
 				</div>
 			</div>

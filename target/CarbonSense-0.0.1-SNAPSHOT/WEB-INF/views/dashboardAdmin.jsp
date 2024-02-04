@@ -201,7 +201,7 @@
 		<div style="display: flex;">
 			<div id="donutchart"></div>
 			<div class="card mb-3"
-				style="width: 21rem; height: 9rem; margin-top: 2rem;">
+				style="width: 25rem; height: 9rem; margin-top: 2rem;">
 				<div class="card-body">
 					<h6 class="card-title">
 						Total Carbon Emission (kgCO2):
