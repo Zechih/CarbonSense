@@ -3,16 +3,16 @@ pipeline {
 
   environment {
     DOCKER_CRED = credentials('docker-hub')
-    JIRA_CRED = credentials('jira-cred')
-    IMAGE_NAME = 'zechih/CarbonSense'
-    JIRA_SITE = 'https://02zechih-1749311651446.atlassian.net/' // defined in Jenkins Global Config
-    JIRA_ISSUE = 'CAR-1'      // Replace with actual issue key
+    JIRA_CRED = credentials('jira-cred') // Atlassian username + API token
+    IMAGE_NAME = 'zechih/carbonsense'
+    JIRA_ISSUE = 'CAR-1' // Replace with real JIRA issue key
+    JIRA_SITE = '02zechih-1749311651446.atlassian.net' // Must match Jenkins JIRA site ID
   }
 
   stages {
     stage('Clone Repository') {
       steps {
-        git credentialsId: 'github', url: 'https://github.com/Zechih/CarbonSense'
+        git credentialsId: 'github', url: 'https://github.com/zechih/CarbonSense'
       }
     }
 
@@ -42,8 +42,8 @@ pipeline {
     stage('Update JIRA') {
       steps {
         script {
-          def summary = "Build #${env.BUILD_NUMBER} - Docker Image pushed, JMeter test completed"
-          jiraAddComment site: "${JIRA_SITE}", idOrKey: "${JIRA_ISSUE}", comment: summary
+          def comment = "✅ Build #${env.BUILD_NUMBER} succeeded. Docker image pushed and JMeter tests completed."
+          jiraAddComment site: "${env.JIRA_SITE}", idOrKey: "${env.JIRA_ISSUE}", comment: comment
         }
       }
     }
@@ -51,11 +51,16 @@ pipeline {
 
   post {
     success {
-      echo 'Build completed successfully.'
+      script {
+        def comment = "🎉 Build #${env.BUILD_NUMBER} passed successfully."
+        jiraAddComment site: "${env.JIRA_SITE}", idOrKey: "${env.JIRA_ISSUE}", comment: comment
+      }
     }
+
     failure {
       script {
-        jiraAddComment site: "${JIRA_SITE}", idOrKey: "${JIRA_ISSUE}", comment: "Build #${env.BUILD_NUMBER} failed."
+        def comment = "❌ Build #${env.BUILD_NUMBER} failed. Check Jenkins logs for details."
+        jiraAddComment site: "${env.JIRA_SITE}", idOrKey: "${env.JIRA_ISSUE}", comment: comment
       }
     }
   }
