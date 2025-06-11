@@ -13,10 +13,9 @@ public class ElectricConDAO {
 
 	public static Connection openConnection() {
 		Connection connection = null;
-
-		String dbURL = "jdbc:mysql://localhost:3306/carbonsense";
-		String username = "root";
-		String password = "";
+		String dbURL = System.getenv("SPRING_DATASOURCE_URL");
+		String username = System.getenv("SPRING_DATASOURCE_USERNAME");
+		String password = System.getenv("SPRING_DATASOURCE_PASSWORD");
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -76,8 +75,9 @@ public class ElectricConDAO {
 		}
 
 	}
-	
-	public void updateElectricConNoProof(float proportionalFactor, float electricityUsageRM, float electricityUsageM3, int electricityID) {
+
+	public void updateElectricConNoProof(float proportionalFactor, float electricityUsageRM, float electricityUsageM3,
+			int electricityID) {
 		try (Connection conn = openConnection()) {
 
 			String updateElectricitySql = "UPDATE electricityconsumption SET electricityProportionalFactor = ?, electricUsageValueRM = ?, electricUsageValueM3 = ?, status = 'PENDING' WHERE electricityID = ?";

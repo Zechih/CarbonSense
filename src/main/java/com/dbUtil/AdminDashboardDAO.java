@@ -10,9 +10,9 @@ public class AdminDashboardDAO {
 	public static Connection openConnection() {
 		Connection connection = null;
 
-		String dbURL = "jdbc:mysql://localhost:3306/carbonsense";
-		String username = "root";
-		String password = "";
+		String dbURL = System.getenv("SPRING_DATASOURCE_URL");
+		String username = System.getenv("SPRING_DATASOURCE_USERNAME");
+		String password = System.getenv("SPRING_DATASOURCE_PASSWORD");
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -74,20 +74,19 @@ public class AdminDashboardDAO {
 			return 0;
 		}
 	}
-	
+
 	public int getTotalSubmissions() {
-	    final String TOTAL_SUBMISSIONS_SQL = "SELECT COUNT(application.applicationID) AS totalSubmission FROM application";
+		final String TOTAL_SUBMISSIONS_SQL = "SELECT COUNT(application.applicationID) AS totalSubmission FROM application";
 
-	    try (Connection conn = openConnection();
-	         ResultSet totalSRs = conn.createStatement().executeQuery(TOTAL_SUBMISSIONS_SQL)) {
+		try (Connection conn = openConnection();
+				ResultSet totalSRs = conn.createStatement().executeQuery(TOTAL_SUBMISSIONS_SQL)) {
 
-	        return totalSRs.next() ? totalSRs.getInt("totalSubmission") : 0;
+			return totalSRs.next() ? totalSRs.getInt("totalSubmission") : 0;
 
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        return 0;
-	    }
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
-
 
 }

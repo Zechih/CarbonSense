@@ -14,9 +14,9 @@ public class WaterConDAO {
     public static Connection openConnection() {
         Connection connection = null;
 
-        String dbURL = "jdbc:mysql://localhost:3306/carbonsense";
-        String username = "root";
-        String password = "";
+        String dbURL = System.getenv("SPRING_DATASOURCE_URL");
+        String username = System.getenv("SPRING_DATASOURCE_USERNAME");
+        String password = System.getenv("SPRING_DATASOURCE_PASSWORD");
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
