@@ -5,14 +5,14 @@ pipeline {
     DOCKER_CRED = credentials('docker-hub')
     JIRA_CRED = credentials('jira-cred')
     IMAGE_NAME = 'zechih/CarbonSense'
-    JIRA_SITE = 'https://02zechih-1749311651446.atlassian.net/jira' // defined in Jenkins Global Config
+    JIRA_SITE = 'https://02zechih-1749311651446.atlassian.net/' // defined in Jenkins Global Config
     JIRA_ISSUE = 'CAR-1'      // Replace with actual issue key
   }
 
   stages {
     stage('Clone Repository') {
       steps {
-        git credentialsId: 'github', url: 'https://github.com/Pudd11ng/CarbonSense'
+        git credentialsId: 'github', url: 'https://github.com/Zechih/CarbonSense'
       }
     }
 
