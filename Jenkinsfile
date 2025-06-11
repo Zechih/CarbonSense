@@ -43,7 +43,7 @@ pipeline {
       steps {
         script {
           def comment = "✅ Build #${env.BUILD_NUMBER} succeeded. Docker image pushed and JMeter tests completed."
-          jiraAddComment site: "${env.JIRA_SITE}", idOrKey: "${env.JIRA_ISSUE}", comment: comment
+          jiraAddComment site: 'my-jira', idOrKey: 'PROJECT-123', comment: 'Build failed.'
         }
       }
     }
@@ -59,8 +59,11 @@ pipeline {
 
     failure {
       script {
-        def comment = "❌ Build #${env.BUILD_NUMBER} failed. Check Jenkins logs for details."
-        jiraAddComment site: "${env.JIRA_SITE}", idOrKey: "${env.JIRA_ISSUE}", comment: comment
+          jiraAddComment(
+              site: 'MyJira',
+              idOrKey: 'CAR-1',
+              comment: 'Build failed. Please check the logs.'
+          )
       }
     }
   }
