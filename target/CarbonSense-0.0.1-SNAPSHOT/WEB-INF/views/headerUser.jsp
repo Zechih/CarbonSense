@@ -14,6 +14,46 @@
 </head>
 
 <body>
+<script>
+		function alertNotUser() {
+			alert("Permission denied. You cannot access this page.");
+			window.location.href = '${pageContext.request.contextPath}/dashboardAdmin';
+		}
+
+		function alertNotLogin() {
+			alert("Permission denied. You cannot access this page. Please login.");
+			window.location.href = '${pageContext.request.contextPath}/login';
+		}
+
+		function alertNotApproved() {
+			window
+					.alert("Your status is not approved. You cannot access this page.");
+			window.location.href = '${pageContext.request.contextPath}/login';
+		}
+	</script>
+		<c:choose>
+		<c:when test="${sessionScope.role == 'USER'}">
+			<c:choose>
+				<c:when test="${sessionScope.status == 'APPROVED'}">
+				</c:when>
+				<c:otherwise>
+					<script>
+						alertNotApproved();
+					</script>
+				</c:otherwise>
+			</c:choose>
+		</c:when>
+		<c:when test="${sessionScope.role == 'ADMIN'}">
+			<script>
+				alertNotUser();
+			</script>
+		</c:when>
+		<c:otherwise>
+			<script>
+				alertNotLogin();
+			</script>
+		</c:otherwise>
+	</c:choose>
 	<nav class="navbar bg-body-tertiary fixedpos">
 		<div class="nav-container">
 			<img src="https://www.mbip.gov.my/sites/default/files/styles/panopoly_image_original/public/jhr_mpj-header-bm-mbip_baru.png?itok=1CSnL0Sp"

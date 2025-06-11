@@ -10,9 +10,9 @@ public class WaterValidateDAO {
     public static Connection openConnection() {
         Connection connection = null;
 
-        String dbURL = "jdbc:mysql://localhost:3306/carbonsense";
-        String username = "root";
-        String password = "";
+        String dbURL = System.getenv("SPRING_DATASOURCE_URL");
+        String username = System.getenv("SPRING_DATASOURCE_USERNAME");
+        String password = System.getenv("SPRING_DATASOURCE_PASSWORD");
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -26,7 +26,8 @@ public class WaterValidateDAO {
 
     public void approveWater(int waterID) {
         try (Connection conn = openConnection();
-             PreparedStatement stmt = conn.prepareStatement("UPDATE waterconsumption SET status = 'APPROVED' WHERE waterID = ?;")) {
+                PreparedStatement stmt = conn
+                        .prepareStatement("UPDATE waterconsumption SET status = 'APPROVED' WHERE waterID = ?;")) {
 
             stmt.setInt(1, waterID);
             int affectedRows = stmt.executeUpdate();
@@ -43,7 +44,8 @@ public class WaterValidateDAO {
 
     public void disapproveWater(int waterID) {
         try (Connection conn = openConnection();
-             PreparedStatement stmt = conn.prepareStatement("UPDATE waterconsumption SET status = 'DISAPPROVED' WHERE waterID = ?;")) {
+                PreparedStatement stmt = conn
+                        .prepareStatement("UPDATE waterconsumption SET status = 'DISAPPROVED' WHERE waterID = ?;")) {
 
             stmt.setInt(1, waterID);
             int affectedRows = stmt.executeUpdate();

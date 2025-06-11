@@ -1,23 +1,28 @@
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\controller\ElectricityConsumptionController.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\dbUtil\ElectricValidateDAO.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\controller\ElectricityValidationController.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\dbUtil\UserValidateDAO.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\model\User.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\controller\UserValidationController.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\dbUtil\DBConnect.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\model\CarbonRegion.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\model\RecycleValidation.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\dbUtil\AdminDashboardDAO.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\dbUtil\ReportDAO.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\controller\RecycleConsumptionController.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\controller\RegisterController.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\controller\ReportController.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\controller\RecycleValidationController.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\model\ElectricityValidation.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\dbUtil\ElectricConDAO.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\controller\LoginController.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\model\CarbonCalculation.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\model\Application.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\model\CarbonReportAnalysis.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\controller\AdminDashboardController.java
-C:\Users\User\Documents\workspace-spring-tool-suite-4-4.20.0.RELEASE\CarbonSense\src\main\java\com\controller\ProfileController.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\dbUtil\ElectricValidateDAO.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\model\Application.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\model\CarbonCalculation.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\dbUtil\ElectricConDAO.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\model\CarbonRegion.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\controller\RecycleValidationController.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\dbUtil\WaterConDAO.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\dbUtil\ReportDAO.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\controller\ElectricityValidationController.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\model\CarbonReportAnalysis.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\controller\AdminDashboardController.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\controller\RegisterController.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\dbUtil\AdminDashboardDAO.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\controller\WaterValidationController.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\dbUtil\WaterValidateDAO.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\model\WaterValidation.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\controller\WaterConsumptionController.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\dbUtil\DBConnect.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\controller\ProfileController.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\controller\UserValidationController.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\controller\ReportController.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\controller\LoginController.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\model\RecycleValidation.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\controller\ElectricityConsumptionController.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\model\User.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\controller\RecycleConsumptionController.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\model\ElectricityValidation.java
+C:\Users\02zec\Documents\VS Code\CarbonSense\src\main\java\com\dbUtil\UserValidateDAO.java
