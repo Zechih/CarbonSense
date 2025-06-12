@@ -2,11 +2,10 @@ pipeline {
   agent any
 
   environment {
-    DOCKER_CRED = credentials('docker-hub')
-    JIRA_CRED = credentials('jira-cred') // Atlassian username + API token
+    DOCKER_CRED = credentials('docker-creds')
     IMAGE_NAME = 'zechih/carbonsense'
     JIRA_ISSUE = 'CAR-1' // Replace with real JIRA issue key
-    JIRA_SITE = '02zechih-1749311651446.atlassian.net' // Must match Jenkins JIRA site ID
+    JIRA_SITE = 'MyJira' // Must match Jenkins JIRA site ID
   }
 
   stages {
@@ -43,7 +42,7 @@ pipeline {
       steps {
         script {
           def comment = "✅ Build #${env.BUILD_NUMBER} succeeded. Docker image pushed and JMeter tests completed."
-          jiraAddComment site: 'my-jira', idOrKey: 'PROJECT-123', comment: 'Build failed.'
+          jiraAddComment site: "${env.JIRA_SITE}", idOrKey: "${env.JIRA_ISSUE}", comment: 'Build failed.'
         }
       }
     }
@@ -60,8 +59,8 @@ pipeline {
     failure {
       script {
           jiraAddComment(
-              site: 'MyJira',
-              idOrKey: 'CAR-1',
+              site: "${env.JIRA_SITE}",
+              idOrKey: "${env.JIRA_ISSUE}",
               comment: 'Build failed. Please check the logs.'
           )
       }
