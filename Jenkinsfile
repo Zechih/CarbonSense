@@ -5,6 +5,7 @@ pipeline {
     IMAGE_NAME = 'zechih/carbonsense'
     JIRA_ISSUE = 'CAR-1'
     JIRA_SITE = 'MyJira'
+    DOCKER_HOST = 'npipe:////./pipe/dockerDesktopLinuxEngine'
   }
 
   stages {
