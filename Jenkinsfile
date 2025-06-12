@@ -29,9 +29,10 @@ pipeline {
 
     stage('Run JMeter Performance Test') {
       steps {
-        sh 'jmeter -n -t tests/performance_test.jmx -l results/result.jtl'
+        bat 'jmeter -n -t tests\\performance_test.jmx -l results\\result.jtl'
       }
     }
+
 
     stage('Publish JMeter Report') {
       steps {
