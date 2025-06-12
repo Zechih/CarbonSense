@@ -36,7 +36,7 @@ pipeline {
     
     stage('Publish JMeter Report') {
       steps {
-        performanceReport parsers: [[$class: 'JMeterParser', glob: 'results/result.jtl']]
+        performanceReport sourceDataFiles: 'results/result.jtl'
       }
     }
 
