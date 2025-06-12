@@ -5,7 +5,6 @@ pipeline {
     IMAGE_NAME = 'zechih/carbonsense'
     JIRA_ISSUE = 'CAR-1'
     JIRA_SITE = 'MyJira'
-    DOCKER_CREDENTIALS = credentials('docker-creds') // Replace with actual ID
   }
 
   stages {
@@ -16,12 +15,11 @@ pipeline {
     }
 
     stage('Build and Push') {
-      steps {
-        sh """
-          echo "${DOCKER_CREDENTIALS_PSW}" | docker login -u "${DOCKER_CREDENTIALS_USR}" --password-stdin
-          docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} .
-          docker push ${IMAGE_NAME}:${BUILD_NUMBER}
-        """
+          withCredentials([usernamePassword(credentialsId: 'docker-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+            docker.withRegistry('https://index.docker.io/v1/', 'docker-creds') {
+              def appImage = docker.build("${IMAGE_NAME}:${env.BUILD_NUMBER}")
+              appImage.push()
+        }
       }
     }
 
