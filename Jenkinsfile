@@ -18,7 +18,7 @@ pipeline {
     stage('Build Docker Image') {
       steps {
         script {
-          docker.withRegistry('https://index.docker.io/v1/', DOCKER_CRED) {
+          docker.withRegistry('https://index.docker.io/v1/', docker-creds) {
             def appImage = docker.build("${IMAGE_NAME}:${env.BUILD_NUMBER}")
             appImage.push()
           }
