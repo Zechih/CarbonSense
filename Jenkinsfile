@@ -33,13 +33,13 @@ pipeline {
         bat 'jmeter -n -t tests\\performance_test.jmx -l results\\result.jtl'
       }
     }
-
-
+    
     stage('Publish JMeter Report') {
       steps {
-        publishPerformanceTestResultReport sourceDataFiles: 'results/result.jtl'
+        performanceReport parsers: [[$class: 'JMeterParser', glob: 'results/result.jtl']]
       }
     }
+
 
     stage('Update JIRA') {
       steps {
