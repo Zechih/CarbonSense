@@ -2,10 +2,10 @@ pipeline {
   agent any
 
   environment {
-    DOCKER_CRED = credentials('docker-creds')
+    DOCKER_CRED = credentials('docker-creds') 
     IMAGE_NAME = 'zechih/carbonsense'
-    JIRA_ISSUE = 'CAR-1' // Replace with real JIRA issue key
-    JIRA_SITE = 'MyJira' // Must match Jenkins JIRA site ID
+    JIRA_ISSUE = 'CAR-1' 
+    JIRA_SITE = 'MyJira' 
   }
 
   stages {
@@ -18,7 +18,7 @@ pipeline {
     stage('Build Docker Image') {
       steps {
         script {
-          docker.withRegistry('https://index.docker.io/v1/', docker-creds) {
+          docker.withRegistry('https://index.docker.io/v1/', env.DOCKER_CRED) {
             def appImage = docker.build("${IMAGE_NAME}:${env.BUILD_NUMBER}")
             appImage.push()
           }
