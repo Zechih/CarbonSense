@@ -15,10 +15,14 @@ pipeline {
     }
 
     stage('Build and Push') {
-          withCredentials([usernamePassword(credentialsId: 'docker-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'docker-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+          script {
             docker.withRegistry('https://index.docker.io/v1/', 'docker-creds') {
               def appImage = docker.build("${IMAGE_NAME}:${env.BUILD_NUMBER}")
               appImage.push()
+            }
+          }
         }
       }
     }
@@ -39,7 +43,7 @@ pipeline {
       steps {
         script {
           def comment = "✅ Build #${env.BUILD_NUMBER} succeeded. Docker image pushed and JMeter tests completed."
-          jiraAddComment site: "${env.JIRA_SITE}", idOrKey: "${env.JIRA_ISSUE}", comment: comment
+          jiraAddComment site: env.JIRA_SITE, idOrKey: env.JIRA_ISSUE, comment: comment
         }
       }
     }
@@ -49,17 +53,13 @@ pipeline {
     success {
       script {
         def comment = "🎉 Build #${env.BUILD_NUMBER} passed successfully."
-        jiraAddComment site: "${env.JIRA_SITE}", idOrKey: "${env.JIRA_ISSUE}", comment: comment
+        jiraAddComment site: env.JIRA_SITE, idOrKey: env.JIRA_ISSUE, comment: comment
       }
     }
 
     failure {
       script {
-        jiraAddComment(
-          site: "${env.JIRA_SITE}",
-          idOrKey: "${env.JIRA_ISSUE}",
-          comment: '❌ Build failed. Please check the logs.'
-        )
+        jiraAddComment site: env.JIRA_SITE, idOrKey: env.JIRA_ISSUE, comment: '❌ Build failed. Please check the logs.'
       }
     }
   }
