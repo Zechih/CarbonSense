@@ -11,7 +11,7 @@ pipeline {
   stages {
     stage('Clone Repository') {
       steps {
-        git credentialsId: 'github', url: 'https://github.com/zechih/CarbonSense'
+        git credentialsId: 'github-creds', branch: 'main', url: 'https://github.com/zechih/CarbonSense'
       }
     }
 
