@@ -5,7 +5,6 @@ pipeline {
     IMAGE_NAME = 'zechih/carbonsense'
     JIRA_ISSUE = 'CAR-1'
     JIRA_SITE = 'MyJira'
-    DOCKER_HOST = 'tcp://localhost:2375' 
   }
 
   stages {
@@ -15,18 +14,16 @@ pipeline {
       }
     }
 
-    stage('Build Docker Image') {
-      steps {
-        script {
-          withCredentials([usernamePassword(credentialsId: 'docker-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-            sh """
-              echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
-              docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} .
-              docker push ${IMAGE_NAME}:${BUILD_NUMBER}
-            """
-          }
+    stages {
+        stage('Build and Push') {
+            steps {
+                sh """
+                    echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
+                    docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} .
+                    docker push ${IMAGE_NAME}:${BUILD_NUMBER}
+                """
+            }
         }
-      }
     }
 
     stage('Run JMeter Performance Test') {
