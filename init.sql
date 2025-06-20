@@ -54,6 +54,25 @@ CREATE TABLE `application` (
   `RecycleID` int(11) DEFAULT NULL,
   FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
+
+CREATE TABLE electricityconsumption (
+    electricityID INT AUTO_INCREMENT PRIMARY KEY,
+    electricityProportionalFactor FLOAT,
+    electricUsageValueRM FLOAT,
+    electricUsageValueM3 FLOAT,
+    electricConsumptionProof LONGBLOB,
+    status VARCHAR(20)
+);
+
+CREATE TABLE waterconsumption (
+    waterID INT AUTO_INCREMENT PRIMARY KEY,
+    waterProportionalFactor FLOAT,
+    waterUsageValueRM FLOAT,
+    waterUsageValueM3 FLOAT,
+    waterConsumptionProof LONGBLOB,
+    status VARCHAR(20)
+);
+
 -- Entries 1-10
 INSERT INTO `users` (`Email`, `IC`, `Password`, `FirstName`, `LastName`, `Gender`, `PhoneNumber`, `Occupation`, `Address`, `Category`, `AddressProof`, `Region`, `Role`, `Status`)
 VALUES
