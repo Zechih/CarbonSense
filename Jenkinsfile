@@ -90,9 +90,18 @@ pipeline {
   post {
     always {
       script {
-        sh "docker-compose -f docker-compose.generated.yml down || true"
+        if (isUnix()) {
+          sh "docker-compose -f docker-compose.generated.yml down || true"
+        } else {
+          bat '''
+          docker-compose -f docker-compose.generated.yml down
+          exit /b 0
+          '''
+        }
       }
     }
+  }
+
 
     success {
       script {
