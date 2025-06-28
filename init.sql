@@ -1,4 +1,4 @@
-CREATE DATABASE carbonSense;
+CREATE DATABASE carbondb;
 
 
 CREATE TABLE `users` (
