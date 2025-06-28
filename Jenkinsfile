@@ -19,9 +19,15 @@ pipeline {
       steps {
         withCredentials([usernamePassword(credentialsId: 'docker-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
           script {
+            // Manually login to Docker (secure)
+            bat """
+              echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
+            """
+
             docker.withRegistry('https://index.docker.io/v1/', 'docker-creds') {
               def appImage = docker.build("zechih/carbonsense-app:${env.BUILD_NUMBER}", '.')
               appImage.push()
+
               def dbImage = docker.build("zechih/carbonsense-db:${env.BUILD_NUMBER}", '-f Dockerfile.mysql .')
               dbImage.push()
             }
@@ -37,7 +43,7 @@ pipeline {
           def replaced = original.replaceAll('\\$\\{BUILD_NUMBER\\}', env.BUILD_NUMBER)
           writeFile file: 'docker-compose.generated.yml', text: replaced
 
-          bat 'docker-compose -f docker-compose.generated.yml down'
+          bat 'docker-compose -f docker-compose.generated.yml down || exit 0'
           bat 'docker-compose -f docker-compose.generated.yml up -d'
         }
       }
@@ -49,7 +55,11 @@ pipeline {
           def appReady = false
           def retries = 10
           for (int i = 0; i < retries; i++) {
-            def response = bat(script: 'curl -s -o nul -w "%{http_code}" http://localhost:8090/actuator/health', returnStdout: true).trim()
+            def response = bat(
+              script: 'curl -s -o nul -w "%{http_code}" http://localhost:8090/actuator/health || exit 0',
+              returnStdout: true
+            ).trim()
+
             if (response == '200') {
               appReady = true
               break
@@ -104,13 +114,15 @@ pipeline {
 
     success {
       script {
-        jiraAddComment site: env.JIRA_SITE, idOrKey: env.JIRA_ISSUE, comment: "🎉 Build #${env.BUILD_NUMBER} passed successfully."
+        jiraAddComment site: env.JIRA_SITE, idOrKey: env.JIRA_ISSUE,
+          comment: "🎉 Build #${env.BUILD_NUMBER} passed successfully."
       }
     }
 
     failure {
       script {
-        jiraAddComment site: env.JIRA_SITE, idOrKey: env.JIRA_ISSUE, comment: "❌ Build failed. Please check the logs."
+        jiraAddComment site: env.JIRA_SITE, idOrKey: env.JIRA_ISSUE,
+          comment: "❌ Build failed. Please check the logs."
       }
     }
   }
