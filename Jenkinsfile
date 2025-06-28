@@ -54,7 +54,6 @@ pipeline {
               script: 'curl -s -o NUL -w "%{http_code}" http://localhost:8090/actuator/health',
               returnStdout: true
             ).trim()
-    
             if (response == '200') {
               echo "App is ready! (HTTP $response)"
               appReady = true
