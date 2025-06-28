@@ -15,18 +15,25 @@ pipeline {
       }
     }
 
-    stage('Build and Push') {
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'docker-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-          script {
-            docker.withRegistry('https://index.docker.io/v1/', 'docker-creds') {
-              def appImage = docker.build("${IMAGE_NAME}:${env.BUILD_NUMBER}")
-              appImage.push()
-            }
+  stage('Build and Push') {
+    steps {
+      withCredentials([usernamePassword(credentialsId: 'docker-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+        script {
+          docker.withRegistry('https://index.docker.io/v1/', 'docker-creds') {
+  
+            // Build and push Spring Boot app image
+            def appImage = docker.build("zechih/carbonsense-app:${env.BUILD_NUMBER}", '.')
+            appImage.push()
+  
+            // Build and push MySQL image using Dockerfile.mysql
+            def dbImage = docker.build("zechih/carbonsense-db:${env.BUILD_NUMBER}", '-f Dockerfile.mysql .')
+            dbImage.push()
           }
         }
       }
     }
+  }
+
 
     stage('Run JMeter Performance Test') {
       steps {
