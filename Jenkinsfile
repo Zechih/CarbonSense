@@ -73,9 +73,8 @@ pipeline {
     }
   } 
 
-
   post {
-    always {
+    failure {
       script {
         if (isUnix()) {
           sh 'docker-compose -f docker-compose.generated.yml down || true'
@@ -87,18 +86,14 @@ pipeline {
           exit /b 0
           '''
         }
+  
+        jiraAddComment site: env.JIRA_SITE, idOrKey: env.JIRA_ISSUE, comment: "❌ Build failed. Containers cleaned up. Please check the logs."
       }
     }
-
+  
     success {
       script {
-        jiraAddComment site: env.JIRA_SITE, idOrKey: env.JIRA_ISSUE, comment: "🎉 Build #${env.BUILD_NUMBER} passed successfully."
-      }
-    }
-
-    failure {
-      script {
-        jiraAddComment site: env.JIRA_SITE, idOrKey: env.JIRA_ISSUE, comment: "❌ Build failed. Please check the logs."
+        jiraAddComment site: env.JIRA_SITE, idOrKey: env.JIRA_ISSUE, comment: "🎉 Build #${env.BUILD_NUMBER} passed successfully. Containers left running."
       }
     }
   }
