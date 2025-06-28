@@ -1,6 +1,3 @@
-CREATE DATABASE carbondb;
-
-
 CREATE TABLE `users` (
   `UserID` int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
   `Email` varchar(255) UNIQUE NOT NULL,
