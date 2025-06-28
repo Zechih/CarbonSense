@@ -54,22 +54,24 @@ pipeline {
               script: 'curl -s -o NUL -w "%{http_code}" http://localhost:8090/actuator/health',
               returnStdout: true
             ).trim()
-            
+    
             if (response == '200') {
+              echo "App is ready! (HTTP $response)"
               appReady = true
               break
             }
-            
+    
             echo "App not ready yet (HTTP $response), waiting..."
             sleep time: 10, unit: 'SECONDS'
           }
-          
+    
           if (!appReady) {
             error("App did not become ready in time.")
           }
         }
       }
     }
+
 
     stage('Run JMeter Performance Test') {
       steps {
