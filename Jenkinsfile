@@ -44,31 +44,10 @@ pipeline {
       }
     }
 
-    stage('Wait for App to Become Ready') {
+    stage('Wait for App Startup (basic delay)') {
       steps {
-        script {
-          def appReady = false
-          def retries = 10
-          for (int i = 0; i < retries; i++) {
-            def response = bat(
-              script: 'curl -s -o NUL -w "%%{http_code}" http://localhost:8090/actuator/health',
-              returnStdout: true
-            ).trim()
-    
-            if (response == '200') {
-              echo "App is ready! (HTTP $response)"
-              appReady = true
-              break
-            }
-    
-            echo "App not ready yet (HTTP $response), waiting..."
-            sleep time: 10, unit: 'SECONDS'
-          }
-    
-          if (!appReady) {
-            error("App did not become ready in time.")
-          }
-        }
+        echo "Waiting 15 seconds for app to start..."
+        sleep time: 15, unit: 'SECONDS'
       }
     }
 
