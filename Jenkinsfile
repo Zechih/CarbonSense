@@ -51,9 +51,10 @@ pipeline {
           def retries = 10
           for (int i = 0; i < retries; i++) {
             def response = bat(
-              script: 'curl -s -o NUL -w "%{http_code}" http://localhost:8090/actuator/health',
+              script: 'curl -s -o NUL -w "%%{http_code}" http://localhost:8090/actuator/health',
               returnStdout: true
             ).trim()
+    
             if (response == '200') {
               echo "App is ready! (HTTP $response)"
               appReady = true
@@ -70,7 +71,6 @@ pipeline {
         }
       }
     }
-
 
     stage('Run JMeter Performance Test') {
       steps {
