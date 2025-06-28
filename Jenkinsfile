@@ -50,14 +50,20 @@ pipeline {
           def appReady = false
           def retries = 10
           for (int i = 0; i < retries; i++) {
-            def response = bat(script: 'curl -s -o nul -w "%{http_code}" http://localhost:8090/actuator/health || exit 0', returnStdout: true).trim()
+            def response = bat(
+              script: 'curl -s -o NUL -w "%{http_code}" http://localhost:8090/actuator/health',
+              returnStdout: true
+            ).trim()
+            
             if (response == '200') {
               appReady = true
               break
             }
+            
             echo "App not ready yet (HTTP $response), waiting..."
             sleep time: 10, unit: 'SECONDS'
           }
+          
           if (!appReady) {
             error("App did not become ready in time.")
           }
@@ -85,7 +91,8 @@ pipeline {
         }
       }
     }
-  }
+  } 
+
 
   post {
     always {
