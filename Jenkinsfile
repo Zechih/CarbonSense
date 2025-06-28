@@ -44,12 +44,31 @@ pipeline {
       }
     }
     
-    stage('Wait for App Startup (basic delay)') {
+    stage('Wait for MySQL Ready') {
       steps {
-        echo "Waiting 10 seconds for app to start..."
-        sleep time: 10, unit: 'SECONDS'
+        script {
+          def dbReady = false
+          def retries = 10
+          for (int i = 0; i < retries; i++) {
+            def result = bat(
+              script: 'docker exec mysql-carbonsense mysql -uroot -proot -e "SELECT 1;"',
+              returnStatus: true
+            )
+            if (result == 0) {
+              echo "✅ MySQL is ready!"
+              dbReady = true
+              break
+            }
+            echo "⌛ MySQL not ready yet. Waiting..."
+            sleep time: 5, unit: 'SECONDS'
+          }
+          if (!dbReady) {
+            error("❌ MySQL did not become ready in time.")
+          }
+        }
       }
     }
+
 
 
     stage('Run JMeter Performance Test') {
