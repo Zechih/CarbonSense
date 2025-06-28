@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   mysql-db:
-    image: mysql:8.0
+    image: zechih/carbonsense-db:${BUILD_NUMBER}
     container_name: mysql-carbonsense
     restart: always
     environment:
@@ -12,8 +12,6 @@ services:
       MYSQL_PASSWORD: carbonpass
     ports:
       - "3306:3306"
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - carbonsense-net
     healthcheck:
@@ -24,9 +22,7 @@ services:
       start_period: 10s
 
   carbon-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: zechih/carbonsense-app:${BUILD_NUMBER}
     container_name: carbon-app
     ports:
       - "8090:8080"
