@@ -87,31 +87,30 @@ pipeline {
     }
   }
 
-  post {
-    always {
-      script {
-        if (isUnix()) {
-          sh "docker-compose -f docker-compose.generated.yml down || true"
-        } else {
-          bat '''
-          docker-compose -f docker-compose.generated.yml down
-          exit /b 0
-          '''
+    post {
+      always {
+        script {
+          if (isUnix()) {
+            sh "docker-compose -f docker-compose.generated.yml down || true"
+          } else {
+            bat '''
+            docker-compose -f docker-compose.generated.yml down
+            exit /b 0
+            '''
+          }
         }
       }
-    }
-  }
-
-
-    success {
-      script {
-        jiraAddComment site: env.JIRA_SITE, idOrKey: env.JIRA_ISSUE, comment: "🎉 Build #${env.BUILD_NUMBER} passed successfully."
+  
+      success {
+        script {
+          jiraAddComment site: env.JIRA_SITE, idOrKey: env.JIRA_ISSUE, comment: "🎉 Build #${env.BUILD_NUMBER} passed successfully."
+        }
       }
-    }
-
-    failure {
-      script {
-        jiraAddComment site: env.JIRA_SITE, idOrKey: env.JIRA_ISSUE, comment: "❌ Build failed. Please check the logs."
+  
+      failure {
+        script {
+          jiraAddComment site: env.JIRA_SITE, idOrKey: env.JIRA_ISSUE, comment: "❌ Build failed. Please check the logs."
+        }
       }
     }
   }
