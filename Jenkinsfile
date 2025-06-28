@@ -44,7 +44,7 @@ pipeline {
       }
     }
     
-    stage('Wait for App Startup') {
+    stage('Wait for App to Become Ready') {
       steps {
         script {
           def appReady = false
@@ -55,7 +55,7 @@ pipeline {
               returnStdout: true
             ).trim()
     
-            if (response == '200' || response == '302') {
+            if (response == '200') {
               echo "App is ready! (HTTP $response)"
               appReady = true
               break
