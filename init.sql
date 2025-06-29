@@ -51,25 +51,25 @@ CREATE TABLE `application` (
   `WaterID` int(11) DEFAULT NULL,
   `ElectricityID` int(11) DEFAULT NULL,
   `RecycleID` int(11) DEFAULT NULL,
-  FOREIGN KEY (UserID) REFERENCES Users(UserID)
+  FOREIGN KEY (UserID) REFERENCES users(UserID)
 );
 
 CREATE TABLE electricityconsumption (
-    electricityID INT AUTO_INCREMENT PRIMARY KEY,
-    electricityProportionalFactor FLOAT,
-    electricUsageValueRM FLOAT,
-    electricUsageValueM3 FLOAT,
-    electricConsumptionProof LONGBLOB,
-    status VARCHAR(20)
+  `ElectricityID` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `ElectricityProportionalFactor` decimal(10,2) DEFAULT 0,
+  `ElectricUsageValueRM` decimal(10,2) DEFAULT 0,
+  `ElectricUsageValueM3` decimal(10,2) DEFAULT 0,
+  `ElectricConsumptionProof` LONGBLOB DEFAULT NULL,
+  `Status` varchar(20) DEFAULT 'PENDING'
 );
 
 CREATE TABLE waterconsumption (
-    waterID INT AUTO_INCREMENT PRIMARY KEY,
-    waterProportionalFactor FLOAT,
-    waterUsageValueRM FLOAT,
-    waterUsageValueM3 FLOAT,
-    waterConsumptionProof LONGBLOB,
-    status VARCHAR(20)
+  `WaterID` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `WaterProportionalFactor` decimal(10,2) DEFAULT 0,
+  `WaterUsageValueRM` decimal(10,2) DEFAULT 0,
+  `WaterUsageValueM3` decimal(10,2) DEFAULT 0,
+  `WaterConsumptionProof` LONGBLOB DEFAULT NULL,
+  `Status` varchar(20) DEFAULT 'PENDING'
 );
 
 -- Entries 1-10

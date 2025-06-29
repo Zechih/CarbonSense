@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   mysql-db:
-    image: zechih/carbonsense-db:${BUILD_NUMBER}
+    image: zechih/carbonsense-db:53
     container_name: mysql-carbonsense
     restart: always
     environment:
@@ -22,7 +22,7 @@ services:
       start_period: 10s
 
   carbon-app:
-    image: zechih/carbonsense-app:${BUILD_NUMBER}
+    image: zechih/carbonsense-app:53
     container_name: carbon-app
     ports:
       - "8090:8080"
